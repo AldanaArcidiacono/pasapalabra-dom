@@ -9,9 +9,61 @@
     <title>Pasapalabra-DOM</title>
 </head>
 <body>
-    <main>
-        <h1>Hello World!</h1>
+    <header>Juego Pasapalabra🎡📚</header>
+    <main class="pasapalabra">
+            <section class="pasapalabra__rules">
+                <p class="rules__message-4-user" id="starting-game-message">A continuación se iniciará el pasapalabra, pero antes te contaremos cómo funciona:<br>
+                    •Cada ronda, se te hará una pregunta con cada una de las letras del abecedario.<br>                
+                    •Si no sabes alguna de ellas, puedes clikear el boton "pasapalabra" y responderla en la siguiente ronda.<br>                
+                    •Tendrás 2 minutos para completar el juego.<br>                
+                    •Si deseas salir, puedes clikear el boton de "salir".<br>                
+                    Suerte!🎡🍀</p>
+                    
+                <button class="rules__game-button" id="start-button">Iniciar</button>
+            </section>
+
+            <section class="pasapalabra__game">
+                <p class="game__question" id="word-to-guess">Aqui iran las adivinanzas</p>
+                    <ul>
+                        <li>letras</li>
+                    </ul>
+
+                <input class="game__answer" type="text" name="user-answer" id="user-answer">
+
+                <button class="game__button game__button-pasapalabra" id="pasapalabra-button">Pasapalabra</button>
+                <button class="game__button game__button-answer" id="answer-button">Responder</button>
+
+                <button class="game__exit-button">Salir</button>
+            </section>
+
+            <section class="pasapalabra__score-and-name" id="winning">
+                <p class="score-and-name__message-4-user" id="dinamic-message">Felicidades! Has terminado el juego!🤗🎡📚</p>
+                <p class="score-and-name__message-4-user" id="static-message">
+                    Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}<br>
+                    Introduce tu nombre para guardar tu score en nuestro ranking!  
+                </p>
+    
+                <input class="score-and-name__user-name" type="text" name="user-name" id="user-name">
+    
+                <button class="score-and-name__exit-button" id="last-exit">Salir</button>
+                <button class="score-and-name__send-button" id="submit-button">Enviar</button>
+            </section>
+
+            <section class="pasapalabra__users__ranking">
+                <p class="message-4-user" id="scoring">Este es el ranking de nuestros jugadores:<br>
+                    Donna : ${puntos}<br>
+                    Clara : ${puntos}<br>
+                    Amy : ${puntos}<br>
+                    ${Usuario} : ${puntos} <br>
+                    Rory : ${puntos}<br>
+                    Jack : ${puntos}</p>
+                <p class="message-4-user" id="play-again">¿Deseas jugar de nuevo?</p>
+    
+                <button class="exit--button" id="last-exit">Salir</button>
+                <button class="game--button" id="play-again-button">Jugar</button>
+            </section>
     </main>
+    <footer>Made with love ❤ by Aldana Arcidiacono</footer>
     <script type="text/javascript" src="index.js"></script>
 </body>
 </html>

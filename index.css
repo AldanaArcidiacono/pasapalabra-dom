@@ -19,7 +19,6 @@ header{
     top: 0px;
     background: #FFD9D9;
     text-align: -webkit-center;
-    font-style: normal;
     font-size: 2rem;
     line-height: 3rem;
     color: #000000;
@@ -33,15 +32,17 @@ main{
     align-content: center;
 }
 
+/* PASAPALABRARULES */
+/*Section*/
 .pasapalabra__rules{
     position: absolute;
     width: 100%;
     height: 55rem;
     z-index: 1;
-    background-color: #ca467bb0;;
+    background-color: #ca467bb0;
     display: none;
 }
-
+/*DIV Mensaje rosa*/
 .rules__message{
     box-sizing: border-box;
     position: fixed;
@@ -53,7 +54,7 @@ main{
     border: 1px solid #424040;
     border-radius: 0.75rem;
 }
-
+/*P Lo escrito*/
 .message__for-user{
     position: absolute;
     width: 47rem;
@@ -65,6 +66,10 @@ main{
     color: #000000;
 }
 
+/* button:hover {
+    background-color: #efe9ef
+} */
+/*BUTTON Boton verde*/
 .message__button{
     box-sizing: border-box;
     position: fixed;
@@ -81,7 +86,10 @@ main{
     -webkit-text-stroke: 1.2px #424040;
     cursor: pointer;
 }
+/* PASAPALABRARULES */
 
+/* PASAPALABRA GAMES */
+/*SECTION*/
 .pasapalabra__game{
     width: 75rem;
     height: 55rem;
@@ -91,7 +99,7 @@ main{
     align-content: center;
     flex-direction: column;
 }
-
+/*ROSCO*/
 .game__container{
     display: flex;
     justify-content: center;
@@ -224,8 +232,8 @@ main{
 
 #z {
     transform: rotate(-103.3deg) translate(25em) rotate(103.3deg);
-}
-
+} /*FINISH ROSCO*/
+/*DIV */
 .game__actions{
     position: absolute;
     display: flex;
@@ -233,8 +241,9 @@ main{
     justify-content: center;
     align-content: center;
     flex-direction: column;
+    display: none;
 }
-
+/*DIV Mensaje rosa*/
 .actions__question{
     display: block;
     align-items: center;
@@ -248,7 +257,7 @@ main{
     border: 1px solid #424040;
     border-radius: 0.75rem;
 }
-
+/*P adivinanazas*/
 #word-to-guess{
     width: 33rem;
     height: 9rem;
@@ -257,7 +266,7 @@ main{
     margin: 1rem;
     color: #2F2E2E;
 }
-
+/*INPUT*/
 .actions__input{
     display: flex;
     align-items: center;
@@ -271,14 +280,14 @@ main{
     border: 0.5px solid #424040;
     border-radius: 9px;
 }
-
+/*BUTTON*/
 .actions__buttons{
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 27rem;
 }
-
+/*BUTTON yellow*/
 .buttons__pasapalabra{
     background: #F8D6A3;
     border: 1px solid #424040;
@@ -292,7 +301,7 @@ main{
     -webkit-text-stroke: 1px #424040;
     color: #FFFFFF;
 }
-
+/*BUTTON green*/
 .buttons__user-answer{
     background: #D7EDBC;
     border: 1px solid #424040;
@@ -306,7 +315,7 @@ main{
     -webkit-text-stroke: 1px #424040;
     color: #FFFFFF;    
 }
-
+/*DIV exit*/
 .game__exit{
     position: absolute;
     display: flex;
@@ -316,27 +325,184 @@ main{
     height: 40rem;
 }
 
-.exit__elements{
-    margin: 0rem 5rem;
+#timer{
+    width: 9rem;
+    height: 9rem;
+    background: #EDBCD0;
+    border: 1px solid #424040;
+    margin-left: 5rem;
+    border-radius: 5rem;
+    box-sizing: border-box;
+    -webkit-text-stroke: 1px #424040;
+    text-align: center;
+    font-size: 4rem;
+    line-height: 9rem;
+    color: #FFFFFF;
 }
+/*BUTTON red*/
+#exit-button{
+    width: 151px;
+    height: 71px;
+    background: #F89090;
+    border: 1px solid #424040;
+    border-radius: 0.75rem; 
+    box-sizing: border-box;
+    -webkit-text-stroke: 1px #424040;
+    text-align: center;
+    font-size: 3rem;
+    line-height: 4rem;
+    color: #FFFFFF;
+    display: none;
+}
+/*PASAPALABRA GAME*/
 
-.pasapalabra__score-and-name{
+/*PASAPALABRA SCORING*/
+/*SECTION*/
+.pasapalabra__scoring{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+    height: 55rem;
+    z-index: 1;
+    background-color: #ca467bb0;    
+    display: none;
+}
+/*DIV Mensaje rosa*/
+.scoring__message-user{
+    width: 51rem;
+    height: 16rem;
+    padding: 1.5rem;
+    background: #EDBCD0;
+    border: 1px solid #424040;
+    border-radius: 0.75rem;
+    font-size: 1.6rem;
+    line-height: 2rem;
+    text-align: center;
+    color: #000000;
+}
+/*INPUT*/
+.scoring__user-name{
+    width: 34rem;
+    height: 3rem;
+    margin: 1rem;
+    padding: 0.5rem;
+    font-size: 1.3rem;
+    background: #F8E9EF;
+    border: 0.5px solid #424040;
+    border-radius: 9px;
+}
+/*BUTTONS*/
+.scoring__butttons{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 27rem;
+}
+/*BUTTON red*/
+.scoring__butttons__exit{
+    background: #F89090;
+    border: 0.5px solid #424040;
+    border-radius: 0.75rem;
+    width: 13.5rem;
+    height: 3rem;
+    margin: 0rem 0.5rem;
+    line-height: 3.25rem;
+    font-size: 2rem;
+    font-weight: 600;
+    -webkit-text-stroke: 1px #424040;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+/*BUTTOn green*/
+.scoring__butttons__send{
+    background: #D7EDBC;
+    border: 0.5px solid #424040;
+    border-radius: 0.75rem;
+    width: 13.5rem;
+    height: 3rem;
+    margin: 0rem 0.5rem;
+    line-height: 3.25rem;
+    font-size: 2rem;
+    font-weight: 600;
+    -webkit-text-stroke: 1px #424040;
+    color: #FFFFFF;  
+    cursor: pointer;  
+}
+/*PASAPALABRA SCORING*/
+
+/*PASAPALABRA USER RANKING*/
+/*SECTION*/
+.pasapalabra__users-ranking{  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
     position: absolute;
     width: 100%;
     height: 55rem;
     z-index: 1;
     background-color: #ca467bb0;
-    display: none;
 }
 
-.pasapalabra__users__ranking{    
-    position: absolute;
-    width: 100%;
-    height: 55rem;
-    z-index: 1;
-    background-color: #ca467bb0;
-    display: none;
+/*DIV Mensaje rosa*/
+.users-ranking__last-message{
+    width: 51rem;
+    height: 20rem;
+    padding: 1.5rem;
+    background: #EDBCD0;
+    border: 1px solid #424040;
+    border-radius: 0.75rem;
+    font-size: 1.6rem;
+    line-height: 2rem;
+    text-align: center;
+    color: #000000;
 }
+/*BUTTONS*/
+.users-ranking__buttons{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    margin: 1rem;
+    width: 27rem;
+}
+/*BUTTON red*/
+#last-exit{
+    background: #F89090;
+    border: 0.5px solid #424040;
+    border-radius: 0.75rem;
+    width: 13.5rem;
+    height: 3rem;
+    margin: 0rem 0.5rem;
+    line-height: 3.25rem;
+    font-size: 2rem;
+    font-weight: 600;
+    -webkit-text-stroke: 1px #424040;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+/*BUTTON green*/
+#play-again-button{
+    background: #D7EDBC;
+    border: 0.5px solid #424040;
+    border-radius: 0.75rem;
+    width: 23rem;
+    height: 3rem;
+    margin: 0rem 0.5rem;
+    line-height: 3.25rem;
+    font-size: 2rem;
+    font-weight: 600;
+    -webkit-text-stroke: 1px #424040;
+    color: #FFFFFF;  
+    cursor: pointer; 
+}
+/*PASAPALABRA USER RANKING*/
+
 
 footer{
     display: flex;

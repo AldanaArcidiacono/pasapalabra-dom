@@ -66,37 +66,45 @@
                     </div>
                 </div>
                 <div class="game__exit">
-                    <div class="exit__elements exit__time">120</div>
-                    <button class="exit__elements exit__button">Salir</button>
+                    <div class="exit__elements" id="timer">120</div>
+                    <button class="exit__elements" id="exit-button">Salir</button>
                 </div>
             </section>
             
 
-            <section class="pasapalabra__score-and-name" id="winning">
-                <p class="score-and-name__message-4-user" id="dinamic-message">Felicidades! Has terminado el juego!🤗🎡📚</p>
-                <p class="score-and-name__message-4-user" id="static-message">
-                    Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}<br>
+            <section class="pasapalabra__scoring" id="winning">
+                <div class="scoring__message-user">
+                    <p  class="dinamic-message">Felicidades! Has terminado el juego!🤗🎡📚</p><br>
+                    <p class="static-message">
+                    Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}<br><br>
                     Introduce tu nombre para guardar tu score en nuestro ranking!  
                 </p>
-    
-                <input class="score-and-name__user-name" type="text" name="user-name" id="user-name">
-    
-                <button class="score-and-name__exit-button" id="last-exit">Salir</button>
-                <button class="score-and-name__send-button" id="submit-button">Enviar</button>
+                </div>
+                
+                <input class="scoring__user-name" type="text" name="user-name" placeholder="Ingresa tu nombre...">
+                
+                <div class="scoring__butttons">
+                    <button class="scoring__butttons__exit" id="last-exit">Salir</button>
+                    <button class="scoring__butttons__send" id="submit-button">Enviar</button>
+                </div>
             </section>
 
-            <section class="pasapalabra__users__ranking">
-                <p class="message-4-user" id="scoring">Este es el ranking de nuestros jugadores:<br>
-                    Donna : ${puntos}<br>
-                    Clara : ${puntos}<br>
-                    Amy : ${puntos}<br>
-                    ${Usuario} : ${puntos} <br>
-                    Rory : ${puntos}<br>
-                    Jack : ${puntos}</p>
-                <p class="message-4-user" id="play-again">¿Deseas jugar de nuevo?</p>
-    
-                <button class="exit--button" id="last-exit">Salir</button>
-                <button class="game--button" id="play-again-button">Jugar</button>
+            <section class="pasapalabra__users-ranking">
+                <div class="users-ranking__last-message">
+                    <p class="last-message__for-user" id="scoring">Este es el ranking de nuestros jugadores:<br>
+                        Donna : ${puntos}<br>
+                        Clara : ${puntos}<br>
+                        Amy : ${puntos}<br>
+                        ${Usuario} : ${puntos} <br>
+                        Rory : ${puntos}<br>
+                        Jack : ${puntos}</p>
+                    <p class="last-message__for-user" id="play-again">¿Deseas jugar de nuevo?</p>
+                </div>
+                    
+                <div class="users-ranking__buttons">
+                    <button class="buttons__exit" id="last-exit">Salir</button>
+                    <button class="buttons__exit" id="play-again-button">Jugar de nuevo</button>
+                </div>
             </section>
     </main>
     <footer><h3>Made with love ❤ by Aldana Arcidiacono</h3></footer>

@@ -32,9 +32,17 @@ main{
     align-content: center;
 }
 
+button{
+    cursor: pointer;
+}
+
 /* PASAPALABRARULES */
 /*Section*/
 .pasapalabra__rules{
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
     position: absolute;
     width: 100%;
     height: 55rem;
@@ -44,25 +52,15 @@ main{
 }
 /*DIV Mensaje rosa*/
 .rules__message{
-    box-sizing: border-box;
-    position: fixed;
     width: 51rem;
     height: 30rem;
-    left: 20rem;
-    top: 16rem;
+    padding: 1.5rem;
     background: #EDBCD0;
     border: 1px solid #424040;
-    border-radius: 0.75rem;
-}
-/*P Lo escrito*/
-.message__for-user{
-    position: absolute;
-    width: 47rem;
-    height: 26rem;
-    left: 0.5rem;
-    margin: 1rem;
-    font-size: 2rem;
+    border-radius: 0.75rem; 
+    font-size: 1.6rem;
     line-height: 2rem;
+    text-align: center;
     color: #000000;
 }
 
@@ -71,20 +69,20 @@ main{
 } */
 /*BUTTON Boton verde*/
 .message__button{
-    box-sizing: border-box;
-    position: fixed;
-    width: 13rem;
-    height: 4rem;
-    left: 38rem;
-    top: 47rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
     background: #D7EDBC;
-    border: 2px solid #424040;
+    border: 0.5px solid #424040;
     border-radius: 0.75rem;
-    font-size: 3rem;
+    width: 15rem;
+    height: 3.5rem;
+    margin: 1rem;
     line-height: 3.5rem;
+    font-size: 2.4rem;
+    font-weight: 600;
+    -webkit-text-stroke: 1px #424040;
     color: #FFFFFF;
-    -webkit-text-stroke: 1.2px #424040;
-    cursor: pointer;
 }
 /* PASAPALABRARULES */
 
@@ -236,12 +234,12 @@ main{
 /*DIV */
 .game__actions{
     position: absolute;
-    display: flex;
     align-items: center;
     justify-content: center;
     align-content: center;
     flex-direction: column;
     display: none;
+    z-index: 1;
 }
 /*DIV Mensaje rosa*/
 .actions__question{
@@ -250,12 +248,13 @@ main{
     justify-content: center;
     box-sizing: border-box;
     width: 35rem;
-    height: 15rem;
+    height: 17rem;
     left: 29rem;
     top: 21rem;
     background: #EDBCD0;
     border: 1px solid #424040;
     border-radius: 0.75rem;
+    cursor: default;
 }
 /*P adivinanazas*/
 #word-to-guess{
@@ -285,7 +284,8 @@ main{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 27rem;
+    width: 30rem;
+
 }
 /*BUTTON yellow*/
 .buttons__pasapalabra{
@@ -293,11 +293,11 @@ main{
     border: 1px solid #424040;
     border-radius: 12px;
     width: 13.5rem;
-    height: 3rem;
+    height: 3.5rem;
     margin: 0rem 0.5rem;
     line-height: 52px;
-    font-size: 30px;
-    font-weight: 550;
+    font-size: 35px;
+    font-weight: 600;
     -webkit-text-stroke: 1px #424040;
     color: #FFFFFF;
 }
@@ -307,13 +307,13 @@ main{
     border: 1px solid #424040;
     border-radius: 12px;
     width: 13.5rem;
-    height: 3rem;
+    height: 3.5rem;
     margin: 0rem 0.5rem;
     line-height: 52px;
-    font-size: 30px;
-    font-weight: 550;
+    font-size: 35px;
+    font-weight: 600;
     -webkit-text-stroke: 1px #424040;
-    color: #FFFFFF;    
+    color: #FFFFFF;
 }
 /*DIV exit*/
 .game__exit{
@@ -338,20 +338,23 @@ main{
     font-size: 4rem;
     line-height: 9rem;
     color: #FFFFFF;
+    cursor: default;
 }
 /*BUTTON red*/
 #exit-button{
-    width: 151px;
-    height: 71px;
+    width: 145px;
+    height: 60px;
+    margin-right: 3rem;
+    margin-bottom: 1rem;
     background: #F89090;
     border: 1px solid #424040;
     border-radius: 0.75rem; 
     box-sizing: border-box;
     -webkit-text-stroke: 1px #424040;
-    text-align: center;
-    font-size: 3rem;
+    font-size: 2.5rem;
     line-height: 4rem;
     color: #FFFFFF;
+    justify-content: center;
     display: none;
 }
 /*PASAPALABRA GAME*/
@@ -415,7 +418,6 @@ main{
     font-weight: 600;
     -webkit-text-stroke: 1px #424040;
     color: #FFFFFF;
-    cursor: pointer;
 }
 /*BUTTOn green*/
 .scoring__butttons__send{
@@ -429,15 +431,14 @@ main{
     font-size: 2rem;
     font-weight: 600;
     -webkit-text-stroke: 1px #424040;
-    color: #FFFFFF;  
-    cursor: pointer;  
+    color: #FFFFFF;    
 }
 /*PASAPALABRA SCORING*/
 
 /*PASAPALABRA USER RANKING*/
 /*SECTION*/
-.pasapalabra__users-ranking{  
-    display: flex;
+
+.pasapalabra__users-ranking{
     align-items: center;
     justify-content: center;
     align-content: center;
@@ -447,6 +448,8 @@ main{
     height: 55rem;
     z-index: 1;
     background-color: #ca467bb0;
+    display: none;
+
 }
 
 /*DIV Mensaje rosa*/
@@ -483,7 +486,6 @@ main{
     font-weight: 600;
     -webkit-text-stroke: 1px #424040;
     color: #FFFFFF;
-    cursor: pointer;
 }
 
 /*BUTTON green*/
@@ -498,8 +500,8 @@ main{
     font-size: 2rem;
     font-weight: 600;
     -webkit-text-stroke: 1px #424040;
-    color: #FFFFFF;  
-    cursor: pointer; 
+    color: #FFFFFF;   
+
 }
 /*PASAPALABRA USER RANKING*/
 

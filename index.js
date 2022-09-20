@@ -128,24 +128,35 @@ const selectingQuestions = (array) => {
 const abcQuestions = (array) => {
     let i = 0;
     do{
-        //Muestre preg al user
         let showQuestion = array[i].question;
         wordToGuess.textContent = showQuestion;
+
         actionPasapalabra.addEventListener("click", event => {
             if(event.target.matches("button")) {
-
-                //Selecciona letra
                 const letter = array[i].letter;
-                //cambia el color
                 document.getElementById(`${letter}`).style.background = "#F8D6A3";
-
-                //cambia styatus
                 array[i].status = 1;
-                
-                //aumenta i
                 i++;
+                showQuestion = array[i].question;
+                wordToGuess.textContent = showQuestion;
+            }
+        })
 
-                //muestra la preg en i
+        actionReply.addEventListener("click", event => {
+            if(event.target.matches("button")) {
+                const letter = array[i].letter;
+                const verifyInputValue = playerInput.value.toLowerCase();
+                console.log(verifyInputValue)
+                
+                if(verifyInputValue === array[i].answer){
+                    document.getElementById(`${letter}`).style.background = "#D7EDBC";
+                    array[i].status = 2;
+                } else {
+                    document.getElementById(`${letter}`).style.background = "#F89090";
+                    array[i].status = 3;
+                }
+
+                i++;
                 showQuestion = array[i].question;
                 wordToGuess.textContent = showQuestion;
             }

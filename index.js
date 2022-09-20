@@ -89,13 +89,22 @@ const pasapalabraGame = document.querySelector(".pasapalabra");
 const startButton = document.querySelector(".message__button");
 const gameRules = document.querySelector(".pasapalabra__rules");
 const userActions = document.querySelector(".game__actions");
+const exitButton = document.querySelector("#exit-button");
 const wordToGuess = document.querySelector("#word-to-guess");
 const playerInput = document.querySelector(".actions__input");
-const actionButtons = document.querySelector(".actions__buttons")
+//const actionButtons = document.querySelector(".actions__buttons")
 const actionPasapalabra = document.querySelector(".buttons__pasapalabra");
 const actionReply = document.querySelector(".buttons__user-answer");
-const lettersCircle = document.querySelectorAll(`.game__letterCircle`);
+//const lettersCircle = document.querySelectorAll(`.game__letterCircle`);
+const finishingGame = document.querySelector(".pasapalabra__scoring");
+const statusNotPlayed = 0;
+const statusPasapalabra = 1;
+const statusCorrect = 2;
+const statusIncorrect = 3;
+
 let playTheGame = false;
+let correctAnswer = 0;
+let wrongAnswer = 0;
   
 const rulesBox = () => {
     gameRules.style.display = "flex"
@@ -103,7 +112,7 @@ const rulesBox = () => {
         if(event.target.matches("button")) {
             gameRules.style.display = "none";
             userActions.style.display = "flex";
-            document.getElementById("exit-button").style.display = "flex";
+            exitButton.style.display = "flex";
             playTheGame = true;
         }
     })
@@ -115,65 +124,111 @@ const selectingQuestions = (array) => {
     return arrayToPlay;
 }
 
-//const getButtonType = () =>{
-    // Como en la calculadora, puedo tener una funcion que
-    // se fije que boton toca y de ahi pasarlo mas simple
-    // a la funcion que verifica?
-//}
-
-// const getLetter = (array) => {
-
-// } 
+//
 
 const abcQuestions = (array) => {
     let i = 0;
-    do{
-        let showQuestion = array[i].question;
-        wordToGuess.textContent = showQuestion;
+    let showQuestion = array[i].question;
+    wordToGuess.textContent = showQuestion;
 
-        actionPasapalabra.addEventListener("click", event => {
-            if(event.target.matches("button")) {
-                const letter = array[i].letter;
-                document.getElementById(`${letter}`).style.background = "#F8D6A3";
-                array[i].status = 1;
-                i++;
-                showQuestion = array[i].question;
-                wordToGuess.textContent = showQuestion;
+    actionPasapalabra.addEventListener("click", event => {
+        if(event.target.matches("button")) {
+            
+            const { letter } = array[i];
+            document.getElementById(`${letter}`).style.background = "#F8D6A3";
+            array[i].status = 1;
+            playerInput.value = "";
+            
+            console.log(i, letter)
+
+            if(i >= 26){
+                i = 0;
+            } else {
+                i++
             }
-        })
 
-        actionReply.addEventListener("click", event => {
-            if(event.target.matches("button")) {
-                const letter = array[i].letter;
-                const verifyInputValue = playerInput.value.toLowerCase();
-                console.log(verifyInputValue)
-                
-                if(verifyInputValue === array[i].answer){
-                    document.getElementById(`${letter}`).style.background = "#D7EDBC";
-                    array[i].status = 2;
-                } else {
-                    document.getElementById(`${letter}`).style.background = "#F89090";
-                    array[i].status = 3;
+            while((array[i].status === statusCorrect || array[i].status === statusIncorrect) && isPasapalabra(array)){
+                i++;
+                if(i > 26) {
+                    i = 0;
                 }
-
-                i++;
+            }
+            
+            if(array[i].status === statusNotPlayed || array[i].status === statusPasapalabra){
                 showQuestion = array[i].question;
                 wordToGuess.textContent = showQuestion;
+            } 
+        }
+    })
+    
+    actionReply.addEventListener("click", event => {
+        if(event.target.matches("button")) {      
+            
+            const { letter } = array[i];
+            const verifyInputValue = playerInput.value.toLowerCase();
+            if(verifyInputValue === array[i].answer){
+                document.getElementById(`${letter}`).style.background = "#D7EDBC";
+                array[i].status = 2;
+                correctAnswer++
+            } else {
+                document.getElementById(`${letter}`).style.background = "#F89090";
+                array[i].status = 3;
+                wrongAnswer++
             }
-        })
+            playerInput.value = "";
         
-    } while(playTheGame && array[i].status === 0 || array[i].status === 1);
+            console.log(i, letter)
+            if(i >= 26){
+                i = 0;
+            } else {
+                i++
+            }
+
+            while((array[i].status === statusCorrect || array[i].status === statusIncorrect) && isPasapalabra(array)){
+                i++;
+                if(i > 26) {
+                    i = 0;
+                }
+            }
+
+            if(array[i].status === statusNotPlayed || array[i].status === statusPasapalabra){
+                showQuestion = array[i].question;
+                wordToGuess.textContent = showQuestion;
+            } 
+
+            if(!isPasapalabra(array) && array[i].status !== statusNotPlayed) {
+                //Mostrar de chau
+                alert("GANASTE! ANDA A DORMIR!")
+            } 
+        }
+    })
 }
 
+//Despues de la Z i vale mas que el array y no continua
 
+const checkIfWin = (array) => {
+    if(array.some(item => item.status === 1)) abcQuestions(array);
+}
 
+const isPasapalabra = (array) => {
+    return array.some(item => item.status === 1);
+}
+
+const hasTime = true;
+const finishGameMessage = () => {
+    if(hasTime && !isPasapalabra){
+        userActions.style.display = "none";
+        exitButton.style.display = "none";
+        finishGameMessage.style.display = "flex";
+    } else if (!hasTime) {
+
+    }
+}
 
 //Main function
 const alphabeticalGame = () => {
     rulesBox();
     const arrayToPlay = selectingQuestions(questions);
-    //getLetter(arrayToPlay);
-    // const action = getButtonType(arrayToPlay);
     abcQuestions(arrayToPlay);
 
 };

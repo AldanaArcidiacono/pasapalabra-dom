@@ -90,9 +90,11 @@ const startButton = document.querySelector(".message__button");
 const gameRules = document.querySelector(".pasapalabra__rules");
 const userActions = document.querySelector(".game__actions");
 const wordToGuess = document.querySelector("#word-to-guess");
-const playingButtons = document.querySelector(".actions__buttons");
 const playerInput = document.querySelector(".actions__input");
-
+const actionButtons = document.querySelector(".actions__buttons")
+const actionPasapalabra = document.querySelector(".buttons__pasapalabra");
+const actionReply = document.querySelector(".buttons__user-answer");
+const lettersCircle = document.querySelectorAll(`.game__letterCircle`);
 let playTheGame = false;
   
 const rulesBox = () => {
@@ -113,36 +115,54 @@ const selectingQuestions = (array) => {
     return arrayToPlay;
 }
 
+//const getButtonType = () =>{
+    // Como en la calculadora, puedo tener una funcion que
+    // se fije que boton toca y de ahi pasarlo mas simple
+    // a la funcion que verifica?
+//}
+
+// const getLetter = (array) => {
+
+// } 
+
 const abcQuestions = (array) => {
     let i = 0;
-    const answerStorage = [];
     do{
+        //Muestre preg al user
         let showQuestion = array[i].question;
         wordToGuess.textContent = showQuestion;
-        playingButtons.addEventListener("click", event => {
+        actionPasapalabra.addEventListener("click", event => {
             if(event.target.matches("button")) {
+
+                //Selecciona letra
+                const letter = array[i].letter;
+                //cambia el color
+                document.getElementById(`${letter}`).style.background = "#F8D6A3";
+
+                //cambia styatus
+                array[i].status = 1;
+                
+                //aumenta i
                 i++;
+
+                //muestra la preg en i
                 showQuestion = array[i].question;
                 wordToGuess.textContent = showQuestion;
-
-                answerStorage.push(playerInput.value)
-                console.log(answerStorage)
             }
         })
-    }
-    while(playTheGame && array[i].status === 0 || array[i].status === 1);
-    vefiryAnswer(array, i, answerStorage)
+        
+    } while(playTheGame && array[i].status === 0 || array[i].status === 1);
 }
 
-const vefiryAnswer = (array, i, answerStorage) => {
 
-} 
 
 
 //Main function
 const alphabeticalGame = () => {
     rulesBox();
     const arrayToPlay = selectingQuestions(questions);
+    //getLetter(arrayToPlay);
+    // const action = getButtonType(arrayToPlay);
     abcQuestions(arrayToPlay);
 
 };

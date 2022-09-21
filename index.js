@@ -33,7 +33,7 @@ const questions = [
         {letter: "d", answer: "devoto", status: 0, question: "CON LA D. Dedicado con fervor a obras de piedad y religión.",},
         {letter: "e", answer: "entera", status: 0, question: "CON LA E. Se dice de la leche que conserva toda la grasa y sustancias nutritivas.",},
         {letter: "f", answer: "forestal", status: 0, question: "CON LA F. Perteneciente o relativo a los bosques y a los aprovechamientos de leñas o pastos.",},
-        {letter: "g", answer: "george lucas", status: 0, question: "CON LA G. Creador de Star Wars.",},
+        {letter: "g", answer: "google", status: 0, question: "CON LA G. Nombre de uno de los buscadores online más utilizados.",},
         {letter: "h", answer: "hombrera", status: 0, question: "CON LA H. Adorno especial de los vestidos en la parte correspondiente a los hombros.",},
         {letter: "i", answer: "intuir", status: 0, question: "CON LA I. Percibir íntima e instantáneamente una idea o verdad tal como si se la tuviera a la vista.",},
         {letter: "j", answer: "jornada", status: 0, question: "CON LA J. Tiempo de duración del trabajo diario.",},
@@ -62,7 +62,7 @@ const questions = [
         {letter: "e", answer: "eleven", status: 0, question: "CON LA E. Nombre del personaje protagonista de Stranger Things.",},
         {letter: "f", answer: "finn", status: 0, question: "CON LA F. Nombre del personaje principal de la serie animada Hora de Aventura.",},
         {letter: "g", answer: "gato", status: 0, question: "CON LA G. Felino.",},
-        {letter: "h", answer: "harry potter", status: 0, question: "CON LA H. Reconocida franquicia de J.K.Rowling.",},
+        {letter: "h", answer: "hawai", status: 0, question: "CON LA H. Lugar donde transcurre la película de Lilo y Stitch.",},
         {letter: "i", answer: "inapetencia", status: 0, question: "CON LA I. Falta de gana de comer.",},
         {letter: "j", answer: "jardineria", status: 0, question: "CON LA J. Arte y oficio del jardinero.",},
         {letter: "k", answer: "kiwi", status: 0, question: "CON LA K. Fruto de forma ovoide, de tamaño variable y recubierto de una piel fina de color marrón, ligeramente vellosa.",},
@@ -135,13 +135,20 @@ const abcQuestions = (array) => {
     let showQuestion = array[i].question;
     wordToGuess.textContent = showQuestion;
 
-    playerInput.addEventListener("keypress", event => {
+    playerInput.addEventListener("keydown", event => {
         if (event.key === "Enter") {
           event.preventDefault();
           actionReply.click();
         }
       });
-    
+
+      playerInput.addEventListener("keydown", event => {
+        if (event.key === " ") {
+          event.preventDefault();
+          actionPasapalabra.click();
+        }
+      });
+
     actionPasapalabra.addEventListener("click", event => {
         if(event.target.matches("button")) {
             

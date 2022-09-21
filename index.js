@@ -112,6 +112,7 @@ const rulesBox = () => {
             gameRules.style.display = "none";
             userActions.style.display = "flex";
             exitButton.style.display = "flex";
+            playerInput.focus();
         }
     })
 };
@@ -134,9 +135,13 @@ const abcQuestions = (array) => {
     let showQuestion = array[i].question;
     wordToGuess.textContent = showQuestion;
 
-    //document.querySelector(".actions__input").focus();
-    //playerInput.focus();
-
+    playerInput.addEventListener("keypress", event => {
+        if (event.key === "Enter") {
+          event.preventDefault();
+          actionReply.click();
+        }
+      });
+    
     actionPasapalabra.addEventListener("click", event => {
         if(event.target.matches("button")) {
             
@@ -144,6 +149,8 @@ const abcQuestions = (array) => {
             document.getElementById(`${letter}`).style.background = "#F8D6A3";
             array[i].status = 1;
             playerInput.value = "";
+            
+
 
             if(i >= 26){
                 i = 0;

@@ -92,17 +92,16 @@ const userActions = document.querySelector(".game__actions");
 const exitButton = document.querySelector("#exit-button");
 const wordToGuess = document.querySelector("#word-to-guess");
 const playerInput = document.querySelector(".actions__input");
-//const actionButtons = document.querySelector(".actions__buttons")
 const actionPasapalabra = document.querySelector(".buttons__pasapalabra");
 const actionReply = document.querySelector(".buttons__user-answer");
-//const lettersCircle = document.querySelectorAll(`.game__letterCircle`);
 const finishingGame = document.querySelector(".pasapalabra__scoring");
+
+
 const statusNotPlayed = 0;
 const statusPasapalabra = 1;
 const statusCorrect = 2;
 const statusIncorrect = 3;
 
-let playTheGame = false;
 let correctAnswer = 0;
 let wrongAnswer = 0;
   
@@ -113,7 +112,6 @@ const rulesBox = () => {
             gameRules.style.display = "none";
             userActions.style.display = "flex";
             exitButton.style.display = "flex";
-            playTheGame = true;
         }
     })
 };
@@ -124,12 +122,20 @@ const selectingQuestions = (array) => {
     return arrayToPlay;
 }
 
-//
+const isPasapalabra = (array) => {
+    return array.some(item => item.status === 1);
+}
+
+// Esto deberia ser el timer, pero por ahora...
+const hasTime = true;
 
 const abcQuestions = (array) => {
     let i = 0;
     let showQuestion = array[i].question;
     wordToGuess.textContent = showQuestion;
+
+    //document.querySelector(".actions__input").focus();
+    //playerInput.focus();
 
     actionPasapalabra.addEventListener("click", event => {
         if(event.target.matches("button")) {
@@ -138,8 +144,6 @@ const abcQuestions = (array) => {
             document.getElementById(`${letter}`).style.background = "#F8D6A3";
             array[i].status = 1;
             playerInput.value = "";
-            
-            console.log(i, letter)
 
             if(i >= 26){
                 i = 0;
@@ -177,7 +181,6 @@ const abcQuestions = (array) => {
             }
             playerInput.value = "";
         
-            console.log(i, letter)
             if(i >= 26){
                 i = 0;
             } else {
@@ -197,32 +200,60 @@ const abcQuestions = (array) => {
             } 
 
             if(!isPasapalabra(array) && array[i].status !== statusNotPlayed) {
-                //Mostrar de chau
-                alert("GANASTE! ANDA A DORMIR!")
+                finishGameMessage(array);
             } 
         }
     })
 }
 
-//Despues de la Z i vale mas que el array y no continua
+const finishGameMessage = (array) => {
+    if(hasTime && !isPasapalabra(array)){
+        const resultString = `Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\nIntroduce tu nombre para guardar tu score en nuestro ranking!`
+        const pointsMessage = document.querySelector(".points-message");
 
-const checkIfWin = (array) => {
-    if(array.some(item => item.status === 1)) abcQuestions(array);
-}
-
-const isPasapalabra = (array) => {
-    return array.some(item => item.status === 1);
-}
-
-const hasTime = true;
-const finishGameMessage = () => {
-    if(hasTime && !isPasapalabra){
+        pointsMessage.textContent = resultString;
         userActions.style.display = "none";
         exitButton.style.display = "none";
-        finishGameMessage.style.display = "flex";
+        finishingGame.style.display = "flex";
+
+        const actionSendName = document.getElementById("submit-button");
+        actionSendName.addEventListener("click", event => {
+            if(event.target.matches("button")){
+
+                const inputUserName = document.querySelector(".scoring__user-name");
+                const userName = inputUserName.value;
+                scoringSystem(userName);
+                
+            }
+        })
     } else if (!hasTime) {
 
     }
+}
+
+// Funciona, pero los scores quedan todos pegoteados
+const scoringSystem = (userName) => {
+    const scoreMessage = document.querySelector(".pasapalabra__users-ranking");
+    finishingGame.style.display = "none";
+    scoreMessage.style.display = "flex";
+
+    let playerNames = [
+        {name: "Donna", score: `${Math.floor(Math.random() * (26 - 1) + 1)}`},
+        {name: "Clara", score: `${Math.floor(Math.random() * (26 - 1) + 1)}`},
+        {name: "Amy", score: `${Math.floor(Math.random() * (26 - 1) + 1)}`},
+        {name: "Rory", score: `${Math.floor(Math.random() * (26 - 1) + 1)}`},
+        {name: "Jack", score: `${Math.floor(Math.random() * (26 - 1) + 1)}`},
+        {name: `${userName}`, score: `${correctAnswer}`}
+    ];
+    playerNames.sort((a , b) => b.score - a.score);
+    let scoringPosition = [];
+    for (let i = 0; i < playerNames.length; i++) {
+        scoringPosition.push(`\r\n${playerNames[i].name}: ${playerNames[i].score} palabras correctas.\r\n`);
+    }
+    console.log(scoringPosition)
+    const scoringString = `Este es el ranking de nuestros usuarios:\r\n${scoringPosition}\r\n`
+    const scoring = document.getElementById("scoring");
+    scoring.textContent = scoringString;
 }
 
 //Main function

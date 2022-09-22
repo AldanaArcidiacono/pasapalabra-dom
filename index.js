@@ -99,8 +99,8 @@ const scoreMessage = document.querySelector(".pasapalabra__users-ranking");
 const scoring = document.getElementById("scoring");
 const inputUserName = document.querySelector(".scoring__user-name");
 const actionSendName = document.getElementById("submit-button");
-const pointsMessage = document.querySelector(".points-message");
 const dinamicMessage = document.querySelector(".dinamic-message")
+const pointsMessage = document.querySelector(".points-message");
 
 
 const statusNotPlayed = 0;
@@ -111,8 +111,12 @@ const statusIncorrect = 3;
 let iterator = 0;
 let correctAnswer = 0;
 let wrongAnswer = 0;
+let hasTimeToPlay = true;
+let timerSecs = 120;
+
+let consolLetter;
   
-const rulesBox = () => {
+const rulesBox = (array) => {
     gameRules.style.display = "flex"
     startButton.addEventListener("click", event => {
         if(event.target.matches("button")) {
@@ -120,6 +124,16 @@ const rulesBox = () => {
             userActions.style.display = "flex";
             exitButton.style.display = "flex";
             playerInput.focus();
+            const timeToAnswer = setInterval (() => {
+                const timer = document.getElementById("timer");
+                timerSecs--;
+                timer.innerHTML = `${timerSecs}`;
+                if(timerSecs < 1){
+                    hasTimeToPlay = false;
+                    clearInterval(timeToAnswer);
+                    finishGameMessage(array);
+                }
+            },1000);
         }
     })
 };
@@ -134,31 +148,29 @@ const isPasapalabra = (array) => {
     return array.some(item => item.status === 1);
 }
 
-// Esto deberia ser el timer, pero por ahora...
-const hasTime = true;
-
 const abcQuestions = (array) => {
     let showQuestion = array[iterator].question;
     wordToGuess.textContent = showQuestion;
-
+    
     playerInput.addEventListener("keydown", event => {
         if (event.key === "Enter") {
-          event.preventDefault();
-          actionReply.click();
+            event.preventDefault();
+            actionReply.click();
         }
-      });
-
-      playerInput.addEventListener("keydown", event => {
+    });
+    
+    playerInput.addEventListener("keydown", event => {
         if (event.key === " ") {
-          event.preventDefault();
-          actionPasapalabra.click();
+            event.preventDefault();
+            actionPasapalabra.click();
         }
-      });
-
+    });
+    
     actionPasapalabra.addEventListener("click", event => {
         if(event.target.matches("button")) {
             
             const { letter } = array[iterator];
+            consolLetter = letter;
             document.getElementById(`${letter}`).style.background = "#F8D6A3";
             array[iterator].status = 1;
             playerInput.value = "";
@@ -187,6 +199,8 @@ const abcQuestions = (array) => {
         if(event.target.matches("button")) {      
             
             const { letter } = array[iterator];
+            //console.log("EN RESPONDER: {LETTER} 202 (Def)",letter)
+            // SIEMPRE ESTA 1 POR DETRAS PORQUE ESTA ANTES DEL INCREMENTO DE I
             const verifyInputValue = playerInput.value.toLowerCase();
             if(verifyInputValue === array[iterator].answer){
                 document.getElementById(`${letter}`).style.background = "#D7EDBC";
@@ -223,13 +237,13 @@ const abcQuestions = (array) => {
             // console.log("EN RESPONDER: ITERADOR",iterator)
             // console.log("EN RESPONDER: RTA CORRECTA",correctAnswer)
             // console.log("EN RESPONDER: LA LETRA",array[iterator].letter);
-            // console.log("EN RESPONDER: {LETTER}",letter)
+            // console.log("EN RESPONDER: {LETTER}, 238",letter)
         }
     })
 }
 
 const finishGameMessage = (array) => {
-    if(hasTime && !isPasapalabra(array)){
+    if(hasTimeToPlay && !isPasapalabra(array)){
         const resultString = `Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\n\r\nIntroduce tu nombre para guardar tu score en nuestro ranking!`
         pointsMessage.innerText = resultString;
         userActions.style.display = "none";
@@ -250,8 +264,34 @@ const finishGameMessage = (array) => {
                 scoringSystem(userName);
             }
         })
+    } else if (!hasTimeToPlay) {
+        const noTimeString = "Se te ha acabado el tiempo!⏳😳"
+        const resultString = `Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\n\r\nIntroduce tu nombre para guardar tu score en nuestro ranking!`
+        
+        dinamicMessage.innerText = noTimeString;
+        pointsMessage.innerText = resultString;
+        userActions.style.display = "none";
+        exitButton.style.display = "none";
+        finishingGame.style.display = "flex";
+        inputUserName.focus();
+
+        inputUserName.addEventListener("keydown", event => {
+            if (event.key === "Enter") {
+              event.preventDefault();
+              actionSendName.click();
+            }
+          });
+
+        actionSendName.addEventListener("click", event => {
+            if(event.target.matches("button")){
+                const userName = inputUserName.value;
+                scoringSystem(userName);
+            }
+        })
     }
-}
+}    
+
+
 // Funciona, pero los scores quedan todos pegoteados
 const scoringSystem = (userName) => {
     finishingGame.style.display = "none";
@@ -310,10 +350,12 @@ const playAgain = (array) => {
             iterator = 0;
             correctAnswer = 0;
             wrongAnswer = 0;
+            hasTimeToPlay = true;
+            timerSecs = 120;
             scoreMessage.style.display = "none";
-            console.log("EN PLAY AGAIN: ITERADOR",iterator)
-            console.log("EN PLAY AGAIN: RTA CORRECTA",correctAnswer)
-            console.log("EN PLAY AGAIN: LA LETRA",array[iterator].letter);
+            // console.log("EN PLAY AGAIN: ITERADOR",iterator)
+            // console.log("EN PLAY AGAIN: RTA CORRECTA",correctAnswer)
+            // console.log("EN PLAY AGAIN: LA LETRA, 330",consolLetter);
             alphabeticalGame();
         }
     })
@@ -321,8 +363,8 @@ const playAgain = (array) => {
 
 //Main function
 const alphabeticalGame = () => {
-    rulesBox();
     const arrayToPlay = selectingQuestions(questions);
+    rulesBox(arrayToPlay);
     abcQuestions(arrayToPlay);
     exitTheGame();
     playAgain(arrayToPlay);

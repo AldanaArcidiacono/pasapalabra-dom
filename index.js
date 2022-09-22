@@ -86,8 +86,10 @@ const questions = [
   ];
 
 const pasapalabraGame = document.querySelector(".pasapalabra");
+const timer = document.getElementById("timer");
 const startButton = document.querySelector(".message__button");
 const gameRules = document.querySelector(".pasapalabra__rules");
+const rosco = document.querySelector(".game__container");
 const userActions = document.querySelector(".game__actions");
 const exitButton = document.querySelector("#exit-button");
 const wordToGuess = document.querySelector("#word-to-guess");
@@ -176,7 +178,6 @@ const shortCuts4Exit = () => {
 
 const setTimeToAnswer = (array) => {
     timeToAnswer = setInterval (() => {
-        const timer = document.getElementById("timer");
         timerSecs--;
         timer.innerHTML = `${timerSecs}`;
         if(timerSecs < 1){
@@ -199,11 +200,17 @@ const isPasapalabra = (array) => {
 
 const rulesBox = (array) => {
     gameRules.style.display = "flex"
+    exitButton.style.display = "flex";
+    timer.style.filter =  "blur(2.5px)";
+    exitButton.style.filter =  "blur(2.5px)";
+    rosco.style.filter =  "blur(2.5px)";
     startButton.addEventListener("click", event => {
         if(event.target.matches("button")) {
             gameRules.style.display = "none";
             userActions.style.display = "flex";
-            exitButton.style.display = "flex";
+            timer.style.filter =  "blur(0px)";
+            exitButton.style.filter =  "blur(0px)";
+            rosco.style.filter =  "blur(0px)";
             playerInput.focus();
             setTimeToAnswer(array);
         }
@@ -271,6 +278,9 @@ const answerActions = (array) => {
     } 
 
     if(!isPasapalabra(array) && array[iterator].status !== statusNotPlayed) {
+        timer.style.filter =  "blur(2.5px)";
+        exitButton.style.filter =  "blur(2.5px)";
+        rosco.style.filter =  "blur(2.5px)";
         finishGameMessage(array);
     }
 };
@@ -361,7 +371,6 @@ const exitTheGame = () => {
     })
 }
 
-// Hay algo que no queda en 0 y me saltea letras
 const playAgain = (array) => {
     const playAgainButton = document.querySelector(".buttons__play");
     playAgainButton.addEventListener("click", event => {
@@ -376,9 +385,6 @@ const playAgain = (array) => {
             hasTimeToPlay = true;
             timerSecs = 120;
             scoreMessage.style.display = "none";
-            console.log("EN PLAY AGAIN: ITERADOR",iterator)
-            console.log("EN PLAY AGAIN: RTA CORRECTA",correctAnswer)
-            console.log("EN PLAY AGAIN: LA LETRA, 330",consolLetter);
             alphabeticalGame();
         }
     })

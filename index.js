@@ -220,21 +220,29 @@ const abcQuestions = (array) => {
             if(!isPasapalabra(array) && array[iterator].status !== statusNotPlayed) {
                 finishGameMessage(array);
             } 
-            console.log("EN RESPONDER: ITERADOR",iterator)
-            console.log("EN RESPONDER: RTA CORRECTA",correctAnswer)
-            console.log("EN RESPONDER: LA LETRA",array[iterator].letter);
-            console.log("EN RESPONDER: {LETTER}",letter)
+            // console.log("EN RESPONDER: ITERADOR",iterator)
+            // console.log("EN RESPONDER: RTA CORRECTA",correctAnswer)
+            // console.log("EN RESPONDER: LA LETRA",array[iterator].letter);
+            // console.log("EN RESPONDER: {LETTER}",letter)
         }
     })
 }
 
 const finishGameMessage = (array) => {
     if(hasTime && !isPasapalabra(array)){
-        const resultString = `Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\nIntroduce tu nombre para guardar tu score en nuestro ranking!`
-        pointsMessage.textContent = resultString;
+        const resultString = `Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\n\r\nIntroduce tu nombre para guardar tu score en nuestro ranking!`
+        pointsMessage.innerText = resultString;
         userActions.style.display = "none";
         exitButton.style.display = "none";
         finishingGame.style.display = "flex";
+        inputUserName.focus();
+
+        inputUserName.addEventListener("keydown", event => {
+            if (event.key === "Enter") {
+              event.preventDefault();
+              actionSendName.click();
+            }
+          });
 
         actionSendName.addEventListener("click", event => {
             if(event.target.matches("button")){
@@ -248,6 +256,7 @@ const finishGameMessage = (array) => {
 const scoringSystem = (userName) => {
     finishingGame.style.display = "none";
     scoreMessage.style.display = "flex";
+    let scoringPosition = [];
 
     let playerNames = [
         {name: "Donna", score: `${Math.floor(Math.random() * (26 - 1) + 1)}`},
@@ -258,16 +267,17 @@ const scoringSystem = (userName) => {
         {name: `${userName}`, score: `${correctAnswer}`}
     ];
     playerNames.sort((a , b) => b.score - a.score);
-    let scoringPosition = [];
-    for (let i = 0; i < playerNames.length; i++) {
-        scoringPosition.push(`\r\n${playerNames[i].name}: ${playerNames[i].score} palabras correctas.\r\n`);
-    }
-    const scoringString = `Este es el ranking de nuestros usuarios:\r\n${scoringPosition}\r\n`
     
-    scoring.textContent = scoringString;
+    for (let i = 0; i < playerNames.length; i++) {
+        scoringPosition.push(`\n◽${playerNames[i].name}: ${playerNames[i].score} palabras correctas.\n`);
+    }
+
+    const stringWithoutComma = scoringPosition.join(" ");
+    const scoringString = `Este es el ranking de nuestros usuarios👾:\r\n${stringWithoutComma}\r\n`;
+    scoring.innerText = scoringString;
 }
 
-const exitTheGame = (array) => {
+const exitTheGame = () => {
     playerInput.addEventListener("keydown", event => {
         if (event.key === "Escape") {
           event.preventDefault();
@@ -277,8 +287,8 @@ const exitTheGame = (array) => {
 
     exitButton.addEventListener("click", event => {
         if(event.target.matches("button")) { 
-            const exitString = `Saliste del juego!😓 \r\nHas respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\n Te esperamos la próxima!`     
-            scoring.textContent = exitString;
+            const exitString = `Saliste del juego!😓\r\nHas respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\n\r\nTe esperamos la próxima!`     
+            scoring.innerText = exitString;
             exitButton.style.display = "none";
             userActions.style.display = "none";
             const usersLastMessage = document.querySelector(".users-ranking__last-message");
@@ -314,7 +324,7 @@ const alphabeticalGame = () => {
     rulesBox();
     const arrayToPlay = selectingQuestions(questions);
     abcQuestions(arrayToPlay);
-    exitTheGame(arrayToPlay);
+    exitTheGame();
     playAgain(arrayToPlay);
 };
 alphabeticalGame();

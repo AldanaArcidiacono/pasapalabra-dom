@@ -36,6 +36,10 @@ button{
     cursor: pointer;
 }
 
+button:hover {
+    background-color: #9a9a9a
+}
+
 /* PASAPALABRARULES */
 /*Section*/
 .pasapalabra__rules{
@@ -52,7 +56,7 @@ button{
 }
 /*DIV Mensaje rosa*/
 .rules__message{
-    width: 51rem;
+    width: 61rem;
     height: 30rem;
     padding: 1.5rem;
     background: #EDBCD0;
@@ -64,9 +68,6 @@ button{
     color: #000000;
 }
 
-/* button:hover {
-    background-color: #efe9ef
-} */
 /*BUTTON Boton verde*/
 .message__button{
     display: flex;
@@ -357,6 +358,7 @@ button{
     justify-content: center;
     display: none;
 }
+
 /*PASAPALABRA GAME*/
 
 /*PASAPALABRA SCORING*/
@@ -377,7 +379,7 @@ button{
 /*DIV Mensaje rosa*/
 .scoring__message-user{
     width: 51rem;
-    height: 16rem;
+    height: 13rem;
     padding: 1.5rem;
     background: #EDBCD0;
     border: 1px solid #424040;
@@ -401,23 +403,9 @@ button{
 /*BUTTONS*/
 .scoring__butttons{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     flex-direction: row;
     width: 27rem;
-}
-/*BUTTON red*/
-.scoring__butttons__exit{
-    background: #F89090;
-    border: 0.5px solid #424040;
-    border-radius: 0.75rem;
-    width: 13.5rem;
-    height: 3rem;
-    margin: 0rem 0.5rem;
-    line-height: 3.25rem;
-    font-size: 2rem;
-    font-weight: 600;
-    -webkit-text-stroke: 1px #424040;
-    color: #FFFFFF;
 }
 /*BUTTOn green*/
 .scoring__butttons__send{
@@ -455,7 +443,7 @@ button{
 /*DIV Mensaje rosa*/
 .users-ranking__last-message{
     width: 51rem;
-    height: 20rem;
+    height: 33rem;
     padding: 1.5rem;
     background: #EDBCD0;
     border: 1px solid #424040;
@@ -468,24 +456,10 @@ button{
 /*BUTTONS*/
 .users-ranking__buttons{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     flex-direction: row;
     margin: 1rem;
     width: 27rem;
-}
-/*BUTTON red*/
-#last-exit{
-    background: #F89090;
-    border: 0.5px solid #424040;
-    border-radius: 0.75rem;
-    width: 13.5rem;
-    height: 3rem;
-    margin: 0rem 0.5rem;
-    line-height: 3.25rem;
-    font-size: 2rem;
-    font-weight: 600;
-    -webkit-text-stroke: 1px #424040;
-    color: #FFFFFF;
 }
 
 /*BUTTON green*/

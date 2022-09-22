@@ -13,11 +13,11 @@
     <main class="pasapalabra">
             <section class="pasapalabra__rules">
                 <div class="rules__message">
-                    <p class="message__for-user" id="starting-game-message">A continuación se iniciará el pasapalabra, pero antes te contaremos cómo funciona:<br><br>
-                        •Cada ronda, se te hará una pregunta con cada una de las letras del abecedario.<br><br>                
-                        •Si no sabes alguna de ellas, puedes clikear el boton "pasapalabra" y responderla en la siguiente ronda.<br><br>                
+                    <p class="message__for-user" id="starting-game-message">A continuación se iniciará el pasapalabra, pero antes te contaremos cómo funciona:<br><br> 
+                        •Cada ronda, se te hará una pregunta con cada una de las letras del abecedario.<br>Para intoducir tu respuesta, haz click en <strong>"enter"</strong> o en el <strong>botón "responder"</strong>.<br><br>                
+                        •Si no sabes alguna de ellas, puedes clikear la <strong>"barra espaciadora"</strong> o el <strong>boton "pasapalabra"</strong> y responderla en la siguiente ronda.<br><br>                
                         •Tendrás 2 minutos para completar el juego.<br><br>                
-                        •Si deseas salir, puedes clikear el boton de "salir".<br><br>                
+                        •Si deseas salir, puedes clikear el <strong>botón de "salir"</strong>.<br><br>                
                         Suerte!🎡🍀</p>
                 </div>
                 <button class="message__button" id="start-button">Iniciar</button>
@@ -67,6 +67,12 @@
                 </div>
                 <div class="game__exit">
                     <div class="exit__elements" id="timer">120</div>
+                    <!-- <div class="exit__message">
+                        <p  class="message__text">Saliste del juego!😓</p><br>
+                        Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}<br>
+                        Te esperamos la próxima!</p>
+                        <button class="message__button-play">Salir</button>
+                    </div> -->
                     <button class="exit__elements" id="exit-button">Salir</button>
                 </div>
             </section>
@@ -77,14 +83,12 @@
                     <p  class="dinamic-message">Felicidades! Has terminado el juego!🤗🎡📚</p><br>
                     <p class="points-message">
                     Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}<br><br>
-                    Introduce tu nombre para guardar tu score en nuestro ranking!  
-                </p>
+                    Introduce tu nombre para guardar tu score en nuestro ranking!</p>
                 </div>
                 
                 <input class="scoring__user-name" type="text" name="user-name" placeholder="Ingresa tu nombre...">
                 
                 <div class="scoring__butttons">
-                    <button class="scoring__butttons__exit" id="last-exit">Salir</button>
                     <button class="scoring__butttons__send" id="submit-button">Enviar</button>
                 </div>
             </section>
@@ -102,8 +106,7 @@
                 </div>
                     
                 <div class="users-ranking__buttons">
-                    <button class="buttons__exit" id="last-exit">Salir</button>
-                    <button class="buttons__exit" id="play-again-button">Jugar de nuevo</button>
+                    <button class="buttons__play" id="play-again-button">Jugar de nuevo</button>
                 </div>
             </section>
     </main>

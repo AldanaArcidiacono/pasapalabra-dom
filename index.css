@@ -37,12 +37,10 @@ button{
 }
 
 button:hover {
-    background-color: #9a9a9a
+    background-color: #d4d4d4b0;
 }
 
-/* PASAPALABRARULES */
-/*Section*/
-.pasapalabra__rules{
+.section__message{
     align-items: center;
     justify-content: center;
     align-content: center;
@@ -52,12 +50,9 @@ button:hover {
     height: 55rem;
     z-index: 1;
     background-color: #ca467bb0;
-    display: none;
 }
-/*DIV Mensaje rosa*/
-.rules__message{
-    width: 61rem;
-    height: 30rem;
+
+.pink__div{
     padding: 1.5rem;
     background: #EDBCD0;
     border: 1px solid #424040;
@@ -68,11 +63,7 @@ button:hover {
     color: #000000;
 }
 
-/*BUTTON Boton verde*/
-.message__button{
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
+.green__button{
     background: #D7EDBC;
     border: 0.5px solid #424040;
     border-radius: 0.75rem;
@@ -80,15 +71,28 @@ button:hover {
     height: 3.5rem;
     margin: 1rem;
     line-height: 3.5rem;
-    font-size: 2.4rem;
+    font-size: 2.2rem;
     font-weight: 600;
     -webkit-text-stroke: 1px #424040;
     color: #FFFFFF;
 }
-/* PASAPALABRARULES */
 
-/* PASAPALABRA GAMES */
-/*SECTION*/
+.pasapalabra__rules{
+    display: none;
+}
+
+.rules__message{
+    width: 61rem;
+    height: 30rem;
+}
+
+.message__button{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    font-size: 2.4rem;
+}
+
 .pasapalabra__game{
     width: 75rem;
     height: 55rem;
@@ -98,7 +102,7 @@ button:hover {
     align-content: center;
     flex-direction: column;
 }
-/*ROSCO*/
+
 .game__container{
     display: flex;
     justify-content: center;
@@ -231,8 +235,8 @@ button:hover {
 
 #z {
     transform: rotate(-103.3deg) translate(25em) rotate(103.3deg);
-} /*FINISH ROSCO*/
-/*DIV */
+}
+
 .game__actions{
     position: absolute;
     align-items: center;
@@ -242,7 +246,7 @@ button:hover {
     display: none;
     z-index: 1;
 }
-/*DIV Mensaje rosa*/
+
 .actions__question{
     display: block;
     align-items: center;
@@ -257,7 +261,7 @@ button:hover {
     border-radius: 0.75rem;
     cursor: default;
 }
-/*P adivinanazas*/
+
 #word-to-guess{
     width: 33rem;
     height: 9rem;
@@ -266,11 +270,8 @@ button:hover {
     margin: 1rem;
     color: #2F2E2E;
 }
-/*INPUT*/
-.actions__input{
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+
+input{
     width: 34rem;
     height: 3rem;
     padding: 0.5rem;
@@ -280,15 +281,20 @@ button:hover {
     border: 0.5px solid #424040;
     border-radius: 9px;
 }
-/*BUTTON*/
+
+.actions__input{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
 .actions__buttons{
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 30rem;
-
 }
-/*BUTTON yellow*/
+
 .buttons__pasapalabra{
     background: #F8D6A3;
     border: 1px solid #424040;
@@ -302,21 +308,8 @@ button:hover {
     -webkit-text-stroke: 1px #424040;
     color: #FFFFFF;
 }
-/*BUTTON green*/
-.buttons__user-answer{
-    background: #D7EDBC;
-    border: 1px solid #424040;
-    border-radius: 12px;
-    width: 13.5rem;
-    height: 3.5rem;
-    margin: 0rem 0.5rem;
-    line-height: 52px;
-    font-size: 35px;
-    font-weight: 600;
-    -webkit-text-stroke: 1px #424040;
-    color: #FFFFFF;
-}
-/*DIV exit*/
+
+
 .game__exit{
     position: absolute;
     display: flex;
@@ -341,7 +334,7 @@ button:hover {
     color: #FFFFFF;
     cursor: default;
 }
-/*BUTTON red*/
+
 #exit-button{
     width: 145px;
     height: 60px;
@@ -359,101 +352,30 @@ button:hover {
     display: none;
 }
 
-/*PASAPALABRA GAME*/
-
-/*PASAPALABRA SCORING*/
-/*SECTION*/
 .pasapalabra__scoring{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    align-content: center;
-    flex-direction: column;
-    position: absolute;
-    width: 100%;
-    height: 55rem;
-    z-index: 1;
-    background-color: #ca467bb0;    
     display: none;
 }
-/*DIV Mensaje rosa*/
 .scoring__message-user{
     width: 51rem;
     height: 13rem;
-    padding: 1.5rem;
-    background: #EDBCD0;
-    border: 1px solid #424040;
-    border-radius: 0.75rem;
-    font-size: 1.6rem;
-    line-height: 2rem;
-    text-align: center;
-    color: #000000;
 }
-/*INPUT*/
-.scoring__user-name{
-    width: 34rem;
-    height: 3rem;
-    margin: 1rem;
-    padding: 0.5rem;
-    font-size: 1.3rem;
-    background: #F8E9EF;
-    border: 0.5px solid #424040;
-    border-radius: 9px;
-}
-/*BUTTONS*/
+
 .scoring__butttons{
     display: flex;
     justify-content: center;
     flex-direction: row;
     width: 27rem;
 }
-/*BUTTOn green*/
-.scoring__butttons__send{
-    background: #D7EDBC;
-    border: 0.5px solid #424040;
-    border-radius: 0.75rem;
-    width: 13.5rem;
-    height: 3rem;
-    margin: 0rem 0.5rem;
-    line-height: 3.25rem;
-    font-size: 2rem;
-    font-weight: 600;
-    -webkit-text-stroke: 1px #424040;
-    color: #FFFFFF;    
-}
-/*PASAPALABRA SCORING*/
-
-/*PASAPALABRA USER RANKING*/
-/*SECTION*/
 
 .pasapalabra__users-ranking{
-    align-items: center;
-    justify-content: center;
-    align-content: center;
-    flex-direction: column;
-    position: absolute;
-    width: 100%;
-    height: 55rem;
-    z-index: 1;
-    background-color: #ca467bb0;
     display: none;
-
 }
 
-/*DIV Mensaje rosa*/
 .users-ranking__last-message{
     width: 51rem;
     height: 33rem;
-    padding: 1.5rem;
-    background: #EDBCD0;
-    border: 1px solid #424040;
-    border-radius: 0.75rem;
-    font-size: 1.6rem;
-    line-height: 2rem;
-    text-align: center;
-    color: #000000;
 }
-/*BUTTONS*/
+
 .users-ranking__buttons{
     display: flex;
     justify-content: center;
@@ -462,23 +384,9 @@ button:hover {
     width: 27rem;
 }
 
-/*BUTTON green*/
 #play-again-button{
-    background: #D7EDBC;
-    border: 0.5px solid #424040;
-    border-radius: 0.75rem;
     width: 23rem;
-    height: 3rem;
-    margin: 0rem 0.5rem;
-    line-height: 3.25rem;
-    font-size: 2rem;
-    font-weight: 600;
-    -webkit-text-stroke: 1px #424040;
-    color: #FFFFFF;   
-
 }
-/*PASAPALABRA USER RANKING*/
-
 
 footer{
     display: flex;

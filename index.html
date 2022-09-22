@@ -11,16 +11,16 @@
 <body>
     <header>Juego Pasapalabra🎡📚</header>
     <main class="pasapalabra">
-            <section class="pasapalabra__rules">
-                <div class="rules__message">
+            <section class="pasapalabra__rules section__message">
+                <div class="rules__message pink__div">
                     <p class="message__for-user" id="starting-game-message">A continuación se iniciará el pasapalabra, pero antes te contaremos cómo funciona:<br><br> 
                         •Cada ronda, se te hará una pregunta con cada una de las letras del abecedario.<br>Para intoducir tu respuesta, haz click en <strong>"enter"</strong> o en el <strong>botón "responder"</strong>.<br><br>                
                         •Si no sabes alguna de ellas, puedes clikear la <strong>"barra espaciadora"</strong> o el <strong>boton "pasapalabra"</strong> y responderla en la siguiente ronda.<br><br>                
                         •Tendrás 2 minutos para completar el juego.<br><br>                
-                        •Si deseas salir, puedes clikear el <strong>botón de "salir"</strong>.<br><br>                
+                        •Si deseas salir, puedes clikear el <strong>botón de "salir"</strong> o la tecla <strong>"escape"</strong>.<br><br>                
                         Suerte!🎡🍀</p>
                 </div>
-                <button class="message__button" id="start-button">Iniciar</button>
+                <button class="message__button green__button" id="start-button">Iniciar</button>
             </section>
 
             <section class="pasapalabra__game">
@@ -62,7 +62,7 @@
 
                     <div class="actions__buttons">
                         <button class="buttons__pasapalabra" id="pasapalabra-button">Pasapalabra</button>
-                        <button class="buttons__user-answer" id="answer-button">Responder</button>
+                        <button class="buttons__user-answer  green__button" id="answer-button">Responder</button>
                     </div>
                 </div>
                 <div class="game__exit">
@@ -72,8 +72,8 @@
             </section>
             
 
-            <section class="pasapalabra__scoring" id="winning">
-                <div class="scoring__message-user">
+            <section class="pasapalabra__scoring section__message" id="winning">
+                <div class="scoring__message-user pink__div">
                     <p  class="dinamic-message">Felicidades! Has terminado el juego!🤗🎡📚</p><br>
                     <p class="points-message">
                     Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}<br><br>
@@ -83,12 +83,12 @@
                 <input class="scoring__user-name" type="text" name="user-name" placeholder="Ingresa tu nombre...">
                 
                 <div class="scoring__butttons">
-                    <button class="scoring__butttons__send" id="submit-button">Enviar</button>
+                    <button class="scoring__butttons__send green__button" id="submit-button">Enviar</button>
                 </div>
             </section>
 
-            <section class="pasapalabra__users-ranking">
-                <div class="users-ranking__last-message">
+            <section class="pasapalabra__users-ranking section__message">
+                <div class="users-ranking__last-message pink__div">
                     <p class="last-message__for-user" id="scoring">Este es el ranking de nuestros jugadores:<br>
                         Donna : ${puntos}<br>
                         Clara : ${puntos}<br>
@@ -100,7 +100,7 @@
                 </div>
                     
                 <div class="users-ranking__buttons">
-                    <button class="buttons__play" id="play-again-button">Jugar de nuevo</button>
+                    <button class="buttons__play  green__button" id="play-again-button">Jugar de nuevo</button>
                 </div>
             </section>
     </main>

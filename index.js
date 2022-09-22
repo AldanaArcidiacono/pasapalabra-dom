@@ -111,6 +111,9 @@ const statusIncorrect = 3;
 let iterator = 0;
 let correctAnswer = 0;
 let wrongAnswer = 0;
+let countTime;
+let hasTimeToPlay = true;
+let timerSecs = 120;
   
 const rulesBox = () => {
     gameRules.style.display = "flex"
@@ -120,6 +123,16 @@ const rulesBox = () => {
             userActions.style.display = "flex";
             exitButton.style.display = "flex";
             playerInput.focus();
+            const timeToAnswer = setInterval (() => {
+                const timer = document.getElementById("timer");
+                timerSecs--;
+                timer.innerHTML = `${timerSecs}`;
+                if(timerSecs < 1){
+                    hasTimeToPlay = false;
+                    console.log("NO MORE TIME", "hasTimeToPlay=", hasTimeToPlay);
+                    clearInterval(timeToAnswer)
+                }
+            },1000);
         }
     })
 };
@@ -133,9 +146,6 @@ const selectingQuestions = (array) => {
 const isPasapalabra = (array) => {
     return array.some(item => item.status === 1);
 }
-
-// Esto deberia ser el timer, pero por ahora...
-const hasTime = true;
 
 const abcQuestions = (array) => {
     let showQuestion = array[iterator].question;
@@ -229,7 +239,7 @@ const abcQuestions = (array) => {
 }
 
 const finishGameMessage = (array) => {
-    if(hasTime && !isPasapalabra(array)){
+    if(hasTimeToPlay && !isPasapalabra(array)){
         const resultString = `Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\n\r\nIntroduce tu nombre para guardar tu score en nuestro ranking!`
         pointsMessage.innerText = resultString;
         userActions.style.display = "none";
@@ -311,9 +321,9 @@ const playAgain = (array) => {
             correctAnswer = 0;
             wrongAnswer = 0;
             scoreMessage.style.display = "none";
-            console.log("EN PLAY AGAIN: ITERADOR",iterator)
-            console.log("EN PLAY AGAIN: RTA CORRECTA",correctAnswer)
-            console.log("EN PLAY AGAIN: LA LETRA",array[iterator].letter);
+            // console.log("EN PLAY AGAIN: ITERADOR",iterator)
+            // console.log("EN PLAY AGAIN: RTA CORRECTA",correctAnswer)
+            // console.log("EN PLAY AGAIN: LA LETRA",array[iterator].letter);
             alphabeticalGame();
         }
     })

@@ -120,7 +120,6 @@ let hasTimeToPlay = true;
 let timerSecs = 120;
 let timeToAnswer;
 
-// Seleccionar array
 const selectingQuestions = (array) => {
     const selectedArray = Math.floor(Math.random() * 3);
     console.log(selectedArray)
@@ -128,11 +127,48 @@ const selectingQuestions = (array) => {
     return arrayToPlay;
 }
 
-
-// Se fija si hay pasapalabvra
 const isPasapalabra = (array) => {
     return array.some(item => item.status === 1);
 }
+
+const setTimeToAnswer = (array) => {
+    timeToAnswer = setInterval (() => {
+        timerSecs--;
+        timer.innerHTML = `${timerSecs}`;
+        if(timerSecs < 1){
+            hasTimeToPlay = false;
+            clearInterval(timeToAnswer);
+            finishGameMessage(array);
+        }
+    },1000);
+}
+
+const rulesBox = () => {
+    gameRules.style.display = "flex";
+    userActions.style.display = "none";
+    exitButton.style.display = "flex";
+    timer.style.filter =  "blur(2.5px)";
+    exitButton.style.filter =  "blur(2.5px)";
+    rosco.style.filter =  "blur(2.5px)";    
+};
+
+const startGame = (array) => {
+    gameRules.style.display = "none";
+    userActions.style.display = "flex";
+    timer.style.filter =  "blur(0px)";
+    exitButton.style.filter =  "blur(0px)";
+    rosco.style.filter =  "blur(0px)";
+    firstLeter.style.border = "3px solid #424040";
+    playerInput.focus();
+    setTimeToAnswer(array);
+}
+
+startButton.addEventListener("click", () => startGame(arrayToPlay));
+
+const abcQuestions = (array) => {
+    let showQuestion = array[iterator].question;
+    wordToGuess.textContent = showQuestion;
+};
 
 // Func Respuesta Input y verif
 const answerActions = (array) => {
@@ -181,15 +217,14 @@ const answerActions = (array) => {
         finishGameMessage(array);
     }
 };
-// Boton answer action
+
 actionReply.addEventListener("click", () => answerActions(arrayToPlay));
-//Enter answer action
+
 playerInput.addEventListener("keydown", event => {
     if (event.key === "Enter") {
         answerActions(arrayToPlay)
     }
 });
-
 
 //Func pasapalabra 
 const pasapalabraActions = (array) => {
@@ -222,16 +257,74 @@ const pasapalabraActions = (array) => {
     } 
 };
 
-// Boton pasapalbra
 actionPasapalabra.addEventListener("click", () => pasapalabraActions(arrayToPlay));
-// Tecla pasapalabra
+
 playerInput.addEventListener("keydown", event => {
     if (event.key === " ") {
         pasapalabraActions(arrayToPlay);
     }
 });
 
-//Func Ranking de jugadores
+const exitTheGame = () => {
+    const exitString = `Saliste del juego!😓\r\nHas respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\n\r\nTe esperamos la próxima!`     
+    scoring.innerText = exitString;
+    exitButton.style.display = "none";
+    userActions.style.display = "none";
+    const usersLastMessage = document.querySelector(".users-ranking__last-message");
+    usersLastMessage.style.height = "12rem"
+    scoreMessage.style.display = "flex";
+    timer.style.filter =  "blur(2.5px)";
+    exitButton.style.filter =  "blur(2.5px)";
+    rosco.style.filter =  "blur(2.5px)";   
+}
+
+exitButton.addEventListener("click", () => exitTheGame());
+
+body.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+        exitTheGame();
+    }
+});
+
+const finishGameMessage = (array) => {
+    if(hasTimeToPlay && !isPasapalabra(array)){
+        const resultString = `Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\n\r\nIntroduce tu nombre para guardar tu score en nuestro ranking!`
+        pointsMessage.innerText = resultString;
+        userActions.style.display = "none";
+        exitButton.style.display = "none";
+        finishingGame.style.display = "flex";
+        inputUserName.focus();
+
+        clearInterval(timeToAnswer);
+
+    } else if (!hasTimeToPlay) {
+        const noTimeString = "Se te ha acabado el tiempo!⏳😳"
+        const resultString = `Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\n\r\nIntroduce tu nombre para guardar tu score en nuestro ranking!`
+        
+        dinamicMessage.innerText = noTimeString;
+        pointsMessage.innerText = resultString;
+        userActions.style.display = "none";
+        exitButton.style.display = "none";
+        timer.style.filter =  "blur(2.5px)";
+        exitButton.style.filter =  "blur(2.5px)";
+        rosco.style.filter =  "blur(2.5px)";   
+        finishingGame.style.display = "flex";
+        inputUserName.focus();
+    }
+}    
+
+actionSendName.addEventListener("click", event => {
+    const userName = inputUserName.value;
+    scoringSystem(userName);
+});
+
+inputUserName.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+        const userName = inputUserName.value;
+        scoringSystem(userName);
+    }
+});
+
 const scoringSystem = (userName) => {
     finishingGame.style.display = "none";
     scoreMessage.style.display = "flex";
@@ -255,102 +348,6 @@ const scoringSystem = (userName) => {
     const scoringString = `Este es el ranking de nuestros usuarios👾:\r\n${stringWithoutComma}\r\n`;
     scoring.innerText = scoringString;
 }
-//Boton guardar nombre para ranking
-actionSendName.addEventListener("click", event => {
-    const userName = inputUserName.value;
-    scoringSystem(userName);
-});
-//Tecla guardar nombre para rakning
-inputUserName.addEventListener("keydown", event => {
-    if (event.key === "Enter") {
-        const userName = inputUserName.value;
-        scoringSystem(userName);
-    }
-});
-
-//Func Exit
-const exitTheGame = () => {
-    const exitString = `Saliste del juego!😓\r\nHas respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\n\r\nTe esperamos la próxima!`     
-    scoring.innerText = exitString;
-    exitButton.style.display = "none";
-    userActions.style.display = "none";
-    const usersLastMessage = document.querySelector(".users-ranking__last-message");
-    usersLastMessage.style.height = "12rem"
-    scoreMessage.style.display = "flex";
-}
-// Boton Exit
-exitButton.addEventListener("click", () => exitTheGame());
-// tecla exit
-body.addEventListener("keydown", event => {
-    if (event.key === "Escape") {
-        exitTheGame();
-    }
-});
-
-const setTimeToAnswer = (array) => {
-    timeToAnswer = setInterval (() => {
-        timerSecs--;
-        timer.innerHTML = `${timerSecs}`;
-        if(timerSecs < 1){
-            hasTimeToPlay = false;
-            clearInterval(timeToAnswer);
-            finishGameMessage(array);
-        }
-    },1000);
-}
-
-const rulesBox = () => {
-    gameRules.style.display = "flex";
-    userActions.style.display = "none";
-    exitButton.style.display = "flex";
-    timer.style.filter =  "blur(2.5px)";
-    exitButton.style.filter =  "blur(2.5px)";
-    rosco.style.filter =  "blur(2.5px)";    
-};
-
-// Despues del bon de inicio
-const startGame = (array) => {
-    gameRules.style.display = "none";
-    userActions.style.display = "flex";
-    timer.style.filter =  "blur(0px)";
-    exitButton.style.filter =  "blur(0px)";
-    rosco.style.filter =  "blur(0px)";
-    firstLeter.style.border = "3px solid #424040";
-    playerInput.focus();
-    setTimeToAnswer(array);
-}
-// Boton iniciar
-startButton.addEventListener("click", () => startGame(arrayToPlay));
-
-// Dicelas adivinanzas
-const abcQuestions = (array) => {
-    let showQuestion = array[iterator].question;
-    wordToGuess.textContent = showQuestion;
-};
-
-const finishGameMessage = (array) => {
-    if(hasTimeToPlay && !isPasapalabra(array)){
-        const resultString = `Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\n\r\nIntroduce tu nombre para guardar tu score en nuestro ranking!`
-        pointsMessage.innerText = resultString;
-        userActions.style.display = "none";
-        exitButton.style.display = "none";
-        finishingGame.style.display = "flex";
-        inputUserName.focus();
-
-        clearInterval(timeToAnswer);
-
-    } else if (!hasTimeToPlay) {
-        const noTimeString = "Se te ha acabado el tiempo!⏳😳"
-        const resultString = `Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\n\r\nIntroduce tu nombre para guardar tu score en nuestro ranking!`
-        
-        dinamicMessage.innerText = noTimeString;
-        pointsMessage.innerText = resultString;
-        userActions.style.display = "none";
-        exitButton.style.display = "none";
-        finishingGame.style.display = "flex";
-        inputUserName.focus();
-    }
-}    
 
 const playAgain = (array) => {
     //document.querySelector(".game__letterCircle").style.background = "#EDBCD0";

@@ -176,10 +176,11 @@ const answerActions = (array) => {
     const { letter } = array[iterator];
 
     const previuosLetter = array[toPreviuosLetter].letter;
+    // current letter
     const selectedLetter = array[toNextLetter].letter;
 
     if (selectedLetter === "z") {
-        document.getElementById(`${array[26].letter}`).style.border = "1px solid #424040";
+        document.getElementById(`${selectedLetter}`).style.border = "1px solid #424040";
         toPreviuosLetter = 0;
         toNextLetter = toPreviuosLetter+1;
     }
@@ -193,6 +194,7 @@ const answerActions = (array) => {
     console.log("previuosLetter",previuosLetter)
     console.log("tonextletter", toNextLetter)
     console.log("selectedLetter",selectedLetter)
+    // Dividir funcion 
 
     const verifyInputValue = playerInput.value.toLowerCase();
     if(verifyInputValue === array[iterator].answer){
@@ -206,6 +208,7 @@ const answerActions = (array) => {
     }
     playerInput.value = "";
 
+    // dif func
     if(iterator >= 26){
         iterator = 0;
         toPreviuosLetter = iterator;
@@ -215,7 +218,8 @@ const answerActions = (array) => {
         toPreviuosLetter++
         toNextLetter++
     }
-    
+
+    //hace falta el estado correcto o incorrecto?
     while((array[iterator].status === statusCorrect || array[iterator].status === statusIncorrect) && isPasapalabra(array)){
         iterator++
         toPreviuosLetter++

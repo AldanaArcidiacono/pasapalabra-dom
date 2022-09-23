@@ -85,9 +85,13 @@ const questions = [
     ]
   ];
 
+const body = document.querySelector("body");
 const pasapalabraGame = document.querySelector(".pasapalabra");
+const timer = document.getElementById("timer");
 const startButton = document.querySelector(".message__button");
 const gameRules = document.querySelector(".pasapalabra__rules");
+const firstLeter = document.getElementById("a");
+const rosco = document.querySelector(".game__container");
 const userActions = document.querySelector(".game__actions");
 const exitButton = document.querySelector("#exit-button");
 const wordToGuess = document.querySelector("#word-to-guess");
@@ -101,198 +105,133 @@ const inputUserName = document.querySelector(".scoring__user-name");
 const actionSendName = document.getElementById("submit-button");
 const dinamicMessage = document.querySelector(".dinamic-message")
 const pointsMessage = document.querySelector(".points-message");
-
+const playAgainButton = document.querySelector(".buttons__play");
 
 const statusNotPlayed = 0;
 const statusPasapalabra = 1;
 const statusCorrect = 2;
 const statusIncorrect = 3;
 
+let arrayToPlay;
 let iterator = 0;
 let correctAnswer = 0;
 let wrongAnswer = 0;
 let hasTimeToPlay = true;
 let timerSecs = 120;
+let timeToAnswer;
 
-let consolLetter;
-  
-const rulesBox = (array) => {
-    gameRules.style.display = "flex"
-    startButton.addEventListener("click", event => {
-        if(event.target.matches("button")) {
-            gameRules.style.display = "none";
-            userActions.style.display = "flex";
-            exitButton.style.display = "flex";
-            playerInput.focus();
-            const timeToAnswer = setInterval (() => {
-                const timer = document.getElementById("timer");
-                timerSecs--;
-                timer.innerHTML = `${timerSecs}`;
-                if(timerSecs < 1){
-                    hasTimeToPlay = false;
-                    clearInterval(timeToAnswer);
-                    finishGameMessage(array);
-                }
-            },1000);
-        }
-    })
-};
-
+// Seleccionar array
 const selectingQuestions = (array) => {
     const selectedArray = Math.floor(Math.random() * 3);
+    console.log(selectedArray)
     const arrayToPlay = array[selectedArray];
     return arrayToPlay;
 }
 
+
+// Se fija si hay pasapalabvra
 const isPasapalabra = (array) => {
     return array.some(item => item.status === 1);
 }
 
-const abcQuestions = (array) => {
-    let showQuestion = array[iterator].question;
-    wordToGuess.textContent = showQuestion;
+// Func Respuesta Input y verif
+const answerActions = (array) => {
+    //const { letter } = array[iterator];
+    const letter = array[iterator].letter;
+
+    firstLeter.style.border = "1px solid #424040";
+    document.getElementById(`${letter}`).style.border = "3px solid #424040";
     
-    playerInput.addEventListener("keydown", event => {
-        if (event.key === "Enter") {
-            event.preventDefault();
-            actionReply.click();
-        }
-    });
-    
-    playerInput.addEventListener("keydown", event => {
-        if (event.key === " ") {
-            event.preventDefault();
-            actionPasapalabra.click();
-        }
-    });
-    
-    actionPasapalabra.addEventListener("click", event => {
-        if(event.target.matches("button")) {
-            
-            const { letter } = array[iterator];
-            consolLetter = letter;
-            document.getElementById(`${letter}`).style.background = "#F8D6A3";
-            array[iterator].status = 1;
-            playerInput.value = "";
-            
-            if(iterator >= 26){
-                iterator = 0;
-            } else {
-                iterator++
-            }
-
-            while((array[iterator].status === statusCorrect || array[iterator].status === statusIncorrect) && isPasapalabra(array)){
-                iterator++;
-                if(iterator > 26) {
-                    iterator= 0;
-                }
-            }
-            
-            if(array[iterator].status === statusNotPlayed || array[iterator].status === statusPasapalabra){
-                showQuestion = array[iterator].question;
-                wordToGuess.textContent = showQuestion;
-            } 
-        }
-    })
-    
-    actionReply.addEventListener("click", event => {
-        if(event.target.matches("button")) {      
-            
-            const { letter } = array[iterator];
-            //console.log("EN RESPONDER: {LETTER} 202 (Def)",letter)
-            // SIEMPRE ESTA 1 POR DETRAS PORQUE ESTA ANTES DEL INCREMENTO DE I
-            const verifyInputValue = playerInput.value.toLowerCase();
-            if(verifyInputValue === array[iterator].answer){
-                document.getElementById(`${letter}`).style.background = "#D7EDBC";
-                array[iterator].status = statusCorrect;
-                correctAnswer++
-            } else {
-                document.getElementById(`${letter}`).style.background = "#F89090";
-                array[iterator].status = statusIncorrect;
-                wrongAnswer++
-            }
-            playerInput.value = "";
-        
-            if(iterator >= 26){
-                iterator = 0;
-            } else {
-                iterator++
-            }
-
-            while((array[iterator].status === statusCorrect || array[iterator].status === statusIncorrect) && isPasapalabra(array)){
-                iterator++;
-                if(iterator > 26) {
-                    iterator = 0;
-                }
-            }
-
-            if(array[iterator].status === statusNotPlayed || array[iterator].status === statusPasapalabra){
-                showQuestion = array[iterator].question;
-                wordToGuess.textContent = showQuestion;
-            } 
-
-            if(!isPasapalabra(array) && array[iterator].status !== statusNotPlayed) {
-                finishGameMessage(array);
-            } 
-            // console.log("EN RESPONDER: ITERADOR",iterator)
-            // console.log("EN RESPONDER: RTA CORRECTA",correctAnswer)
-            // console.log("EN RESPONDER: LA LETRA",array[iterator].letter);
-            // console.log("EN RESPONDER: {LETTER}, 238",letter)
-        }
-    })
-}
-
-const finishGameMessage = (array) => {
-    if(hasTimeToPlay && !isPasapalabra(array)){
-        const resultString = `Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\n\r\nIntroduce tu nombre para guardar tu score en nuestro ranking!`
-        pointsMessage.innerText = resultString;
-        userActions.style.display = "none";
-        exitButton.style.display = "none";
-        finishingGame.style.display = "flex";
-        inputUserName.focus();
-
-        inputUserName.addEventListener("keydown", event => {
-            if (event.key === "Enter") {
-              event.preventDefault();
-              actionSendName.click();
-            }
-          });
-
-        actionSendName.addEventListener("click", event => {
-            if(event.target.matches("button")){
-                const userName = inputUserName.value;
-                scoringSystem(userName);
-            }
-        })
-    } else if (!hasTimeToPlay) {
-        const noTimeString = "Se te ha acabado el tiempo!⏳😳"
-        const resultString = `Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\n\r\nIntroduce tu nombre para guardar tu score en nuestro ranking!`
-        
-        dinamicMessage.innerText = noTimeString;
-        pointsMessage.innerText = resultString;
-        userActions.style.display = "none";
-        exitButton.style.display = "none";
-        finishingGame.style.display = "flex";
-        inputUserName.focus();
-
-        inputUserName.addEventListener("keydown", event => {
-            if (event.key === "Enter") {
-              event.preventDefault();
-              actionSendName.click();
-            }
-          });
-
-        actionSendName.addEventListener("click", event => {
-            if(event.target.matches("button")){
-                const userName = inputUserName.value;
-                scoringSystem(userName);
-            }
-        })
+    const verifyInputValue = playerInput.value.toLowerCase();
+    if(verifyInputValue === array[iterator].answer){
+        document.getElementById(`${letter}`).style.background = "#D7EDBC";
+        array[iterator].status = statusCorrect;
+        correctAnswer++
+    } else {
+        document.getElementById(`${letter}`).style.background = "#F89090";
+        array[iterator].status = statusIncorrect;
+        wrongAnswer++
     }
-}    
+    playerInput.value = "";
+
+    if(iterator >= 26){
+        iterator = 0;
+    } else {
+        iterator++
+       document.getElementById(`${letter}`).style.border = "1px solid #424040";
+    }
+    
+    while((array[iterator].status === statusCorrect || array[iterator].status === statusIncorrect) && isPasapalabra(array)){
+        iterator++
+       document.getElementById(`${letter}`).style.border = "1px solid #424040";
+        if(iterator > 26) {
+            iterator = 0;
+        }
+    }
+
+    if(array[iterator].status === statusNotPlayed || array[iterator].status === statusPasapalabra){
+        showQuestion = array[iterator].question;
+        wordToGuess.textContent = showQuestion;
+    } 
+
+    if(!isPasapalabra(array) && array[iterator].status !== statusNotPlayed) {
+        timer.style.filter =  "blur(2.5px)";
+        exitButton.style.filter =  "blur(2.5px)";
+        rosco.style.filter =  "blur(2.5px)";
+        finishGameMessage(array);
+    }
+};
+// Boton answer action
+actionReply.addEventListener("click", () => answerActions(arrayToPlay));
+//Enter answer action
+playerInput.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+        answerActions(arrayToPlay)
+    }
+});
 
 
-// Funciona, pero los scores quedan todos pegoteados
+//Func pasapalabra 
+const pasapalabraActions = (array) => {
+    //const { letter } = array[iterator];
+    const letter = array[iterator].letter;
+
+    document.getElementById(`${letter}`).style.background = "#F8D6A3";
+    firstLeter.style.border = "1px solid #424040";
+
+    array[iterator].status = statusPasapalabra;
+
+    playerInput.value = "";
+    
+    if(iterator >= 26){
+        iterator = 0;
+    } else {
+        iterator++
+    }
+
+    while((array[iterator].status === statusCorrect || array[iterator].status === statusIncorrect) && isPasapalabra(array)){
+        iterator++
+        if(iterator > 26) {
+            iterator = 0;
+        }
+    }
+    
+    if(array[iterator].status === statusNotPlayed || array[iterator].status === statusPasapalabra){
+        showQuestion = array[iterator].question;
+        wordToGuess.textContent = showQuestion;
+    } 
+};
+
+// Boton pasapalbra
+actionPasapalabra.addEventListener("click", () => pasapalabraActions(arrayToPlay));
+// Tecla pasapalabra
+playerInput.addEventListener("keydown", event => {
+    if (event.key === " ") {
+        pasapalabraActions(arrayToPlay);
+    }
+});
+
+//Func Ranking de jugadores
 const scoringSystem = (userName) => {
     finishingGame.style.display = "none";
     scoreMessage.style.display = "flex";
@@ -316,57 +255,125 @@ const scoringSystem = (userName) => {
     const scoringString = `Este es el ranking de nuestros usuarios👾:\r\n${stringWithoutComma}\r\n`;
     scoring.innerText = scoringString;
 }
+//Boton guardar nombre para ranking
+actionSendName.addEventListener("click", event => {
+    const userName = inputUserName.value;
+    scoringSystem(userName);
+});
+//Tecla guardar nombre para rakning
+inputUserName.addEventListener("keydown", event => {
+    if (event.key === "Enter") {
+        const userName = inputUserName.value;
+        scoringSystem(userName);
+    }
+});
 
+//Func Exit
 const exitTheGame = () => {
-    playerInput.addEventListener("keydown", event => {
-        if (event.key === "Escape") {
-          event.preventDefault();
-          exitButton.click();
-        }
-      });
+    const exitString = `Saliste del juego!😓\r\nHas respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\n\r\nTe esperamos la próxima!`     
+    scoring.innerText = exitString;
+    exitButton.style.display = "none";
+    userActions.style.display = "none";
+    const usersLastMessage = document.querySelector(".users-ranking__last-message");
+    usersLastMessage.style.height = "12rem"
+    scoreMessage.style.display = "flex";
+}
+// Boton Exit
+exitButton.addEventListener("click", () => exitTheGame());
+// tecla exit
+body.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+        exitTheGame();
+    }
+});
 
-    exitButton.addEventListener("click", event => {
-        if(event.target.matches("button")) { 
-            const exitString = `Saliste del juego!😓\r\nHas respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\n\r\nTe esperamos la próxima!`     
-            scoring.innerText = exitString;
-            exitButton.style.display = "none";
-            userActions.style.display = "none";
-            const usersLastMessage = document.querySelector(".users-ranking__last-message");
-            usersLastMessage.style.height = "12rem"
-            scoreMessage.style.display = "flex";
+const setTimeToAnswer = (array) => {
+    timeToAnswer = setInterval (() => {
+        timerSecs--;
+        timer.innerHTML = `${timerSecs}`;
+        if(timerSecs < 1){
+            hasTimeToPlay = false;
+            clearInterval(timeToAnswer);
+            finishGameMessage(array);
         }
-    })
+    },1000);
 }
 
-// Hay algo que no queda en 0 y me saltea letras
+const rulesBox = () => {
+    gameRules.style.display = "flex";
+    userActions.style.display = "none";
+    exitButton.style.display = "flex";
+    timer.style.filter =  "blur(2.5px)";
+    exitButton.style.filter =  "blur(2.5px)";
+    rosco.style.filter =  "blur(2.5px)";    
+};
+
+// Despues del bon de inicio
+const startGame = (array) => {
+    gameRules.style.display = "none";
+    userActions.style.display = "flex";
+    timer.style.filter =  "blur(0px)";
+    exitButton.style.filter =  "blur(0px)";
+    rosco.style.filter =  "blur(0px)";
+    firstLeter.style.border = "3px solid #424040";
+    playerInput.focus();
+    setTimeToAnswer(array);
+}
+// Boton iniciar
+startButton.addEventListener("click", () => startGame(arrayToPlay));
+
+// Dicelas adivinanzas
+const abcQuestions = (array) => {
+    let showQuestion = array[iterator].question;
+    wordToGuess.textContent = showQuestion;
+};
+
+const finishGameMessage = (array) => {
+    if(hasTimeToPlay && !isPasapalabra(array)){
+        const resultString = `Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\n\r\nIntroduce tu nombre para guardar tu score en nuestro ranking!`
+        pointsMessage.innerText = resultString;
+        userActions.style.display = "none";
+        exitButton.style.display = "none";
+        finishingGame.style.display = "flex";
+        inputUserName.focus();
+
+        clearInterval(timeToAnswer);
+
+    } else if (!hasTimeToPlay) {
+        const noTimeString = "Se te ha acabado el tiempo!⏳😳"
+        const resultString = `Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\n\r\nIntroduce tu nombre para guardar tu score en nuestro ranking!`
+        
+        dinamicMessage.innerText = noTimeString;
+        pointsMessage.innerText = resultString;
+        userActions.style.display = "none";
+        exitButton.style.display = "none";
+        finishingGame.style.display = "flex";
+        inputUserName.focus();
+    }
+}    
+
 const playAgain = (array) => {
-    const playAgainButton = document.querySelector(".buttons__play");
-    playAgainButton.addEventListener("click", event => {
-        if(event.target.matches("button")){
-            for(let i = 0; i < array.length; i++){
-                array[i].status = statusNotPlayed;
-                document.getElementById(`${array[i].letter}`).style.background = "#EDBCD0";
-            }
-            iterator = 0;
-            correctAnswer = 0;
-            wrongAnswer = 0;
-            hasTimeToPlay = true;
-            timerSecs = 120;
-            scoreMessage.style.display = "none";
-            // console.log("EN PLAY AGAIN: ITERADOR",iterator)
-            // console.log("EN PLAY AGAIN: RTA CORRECTA",correctAnswer)
-            // console.log("EN PLAY AGAIN: LA LETRA, 330",consolLetter);
-            alphabeticalGame();
-        }
-    })
+    //document.querySelector(".game__letterCircle").style.background = "#EDBCD0";
+    for(let i = 0; i < array.length; i++){
+        document.getElementById(`${array[i].letter}`).style.background = "#EDBCD0";
+        array[i].status = statusNotPlayed;
+    }
+    iterator = 0;
+    correctAnswer = 0;
+    wrongAnswer = 0;
+    hasTimeToPlay = true;
+    timerSecs = 120;
+    scoreMessage.style.display = "none";
+    alphabeticalGame();
 }
+
+playAgainButton.addEventListener("click", () => playAgain(arrayToPlay));
 
 //Main function
 const alphabeticalGame = () => {
-    const arrayToPlay = selectingQuestions(questions);
-    rulesBox(arrayToPlay);
+    rulesBox();
+    // Se guarda el array 
+    arrayToPlay = selectingQuestions(questions);
     abcQuestions(arrayToPlay);
-    exitTheGame();
-    playAgain(arrayToPlay);
 };
 alphabeticalGame();

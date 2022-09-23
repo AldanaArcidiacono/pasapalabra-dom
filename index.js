@@ -114,6 +114,8 @@ const statusIncorrect = 3;
 
 let arrayToPlay;
 let iterator = 0;
+let toPreviuosLetter = 0;
+let toNextLetter = toPreviuosLetter+1;
 let correctAnswer = 0;
 let wrongAnswer = 0;
 let hasTimeToPlay = true;
@@ -122,7 +124,6 @@ let timeToAnswer;
 
 const selectingQuestions = (array) => {
     const selectedArray = Math.floor(Math.random() * 3);
-    console.log(selectedArray)
     const arrayToPlay = array[selectedArray];
     return arrayToPlay;
 }
@@ -172,12 +173,27 @@ const abcQuestions = (array) => {
 
 // Func Respuesta Input y verif
 const answerActions = (array) => {
-    //const { letter } = array[iterator];
-    const letter = array[iterator].letter;
+    const { letter } = array[iterator];
+
+    const previuosLetter = array[toPreviuosLetter].letter;
+    const selectedLetter = array[toNextLetter].letter;
+
+    if (selectedLetter === "z") {
+        document.getElementById(`${array[26].letter}`).style.border = "1px solid #424040";
+        toPreviuosLetter = 0;
+        toNextLetter = toPreviuosLetter+1;
+    }
 
     firstLeter.style.border = "1px solid #424040";
-    document.getElementById(`${letter}`).style.border = "3px solid #424040";
-    
+    document.getElementById(`${previuosLetter}`).style.border = "1px solid #424040";
+    document.getElementById(`${selectedLetter}`).style.border = "3px solid #424040";    
+
+    console.log("iterator", iterator)
+    console.log("topreviuosletter", toPreviuosLetter)
+    console.log("previuosLetter",previuosLetter)
+    console.log("tonextletter", toNextLetter)
+    console.log("selectedLetter",selectedLetter)
+
     const verifyInputValue = playerInput.value.toLowerCase();
     if(verifyInputValue === array[iterator].answer){
         document.getElementById(`${letter}`).style.background = "#D7EDBC";
@@ -192,16 +208,22 @@ const answerActions = (array) => {
 
     if(iterator >= 26){
         iterator = 0;
+        toPreviuosLetter = iterator;
+        toNextLetter = toPreviuosLetter+1;
     } else {
         iterator++
-       document.getElementById(`${letter}`).style.border = "1px solid #424040";
+        toPreviuosLetter++
+        toNextLetter++
     }
     
     while((array[iterator].status === statusCorrect || array[iterator].status === statusIncorrect) && isPasapalabra(array)){
         iterator++
-       document.getElementById(`${letter}`).style.border = "1px solid #424040";
+        toPreviuosLetter++
+        toNextLetter++
         if(iterator > 26) {
             iterator = 0;
+            toPreviuosLetter = iterator;
+            toNextLetter = toPreviuosLetter+1;
         }
     }
 
@@ -222,17 +244,28 @@ actionReply.addEventListener("click", () => answerActions(arrayToPlay));
 
 playerInput.addEventListener("keydown", event => {
     if (event.key === "Enter") {
-        answerActions(arrayToPlay)
+        event.preventDefault();
+        answerActions(arrayToPlay);
     }
 });
 
-//Func pasapalabra 
+//Func pasapalabra
 const pasapalabraActions = (array) => {
-    //const { letter } = array[iterator];
-    const letter = array[iterator].letter;
-
+    const { letter } = array[iterator];
     document.getElementById(`${letter}`).style.background = "#F8D6A3";
+
+    const previuosLetter = array[toPreviuosLetter].letter;
+    const selectedLetter = array[toNextLetter].letter;
+
+    if (selectedLetter === "z") {
+        document.getElementById(`${array[26].letter}`).style.border = "1px solid #424040";
+        toPreviuosLetter = 0;
+        toNextLetter = toPreviuosLetter+1;
+    }
+
     firstLeter.style.border = "1px solid #424040";
+    document.getElementById(`${previuosLetter}`).style.border = "1px solid #424040";
+    document.getElementById(`${selectedLetter}`).style.border = "3px solid #424040";    
 
     array[iterator].status = statusPasapalabra;
 
@@ -240,14 +273,22 @@ const pasapalabraActions = (array) => {
     
     if(iterator >= 26){
         iterator = 0;
+        toPreviuosLetter = iterator;
+        toNextLetter = toPreviuosLetter+1;
     } else {
         iterator++
+        toPreviuosLetter++
+        toNextLetter++
     }
 
     while((array[iterator].status === statusCorrect || array[iterator].status === statusIncorrect) && isPasapalabra(array)){
         iterator++
+        toPreviuosLetter++
+        toNextLetter++
         if(iterator > 26) {
-            iterator = 0;
+            iterator = iterator;
+            toPreviuosLetter = 0;
+            toNextLetter = toPreviuosLetter+1;
         }
     }
     
@@ -261,6 +302,7 @@ actionPasapalabra.addEventListener("click", () => pasapalabraActions(arrayToPlay
 
 playerInput.addEventListener("keydown", event => {
     if (event.key === " ") {
+        event.preventDefault();
         pasapalabraActions(arrayToPlay);
     }
 });
@@ -320,6 +362,7 @@ actionSendName.addEventListener("click", event => {
 
 inputUserName.addEventListener("keydown", event => {
     if (event.key === "Enter") {
+        //event.preventDefault();
         const userName = inputUserName.value;
         scoringSystem(userName);
     }
@@ -350,12 +393,13 @@ const scoringSystem = (userName) => {
 }
 
 const playAgain = (array) => {
-    //document.querySelector(".game__letterCircle").style.background = "#EDBCD0";
     for(let i = 0; i < array.length; i++){
         document.getElementById(`${array[i].letter}`).style.background = "#EDBCD0";
         array[i].status = statusNotPlayed;
     }
     iterator = 0;
+    toNextLetter = toPreviuosLetter+1;
+    toPreviuosLetter = 0;
     correctAnswer = 0;
     wrongAnswer = 0;
     hasTimeToPlay = true;
@@ -369,7 +413,6 @@ playAgainButton.addEventListener("click", () => playAgain(arrayToPlay));
 //Main function
 const alphabeticalGame = () => {
     rulesBox();
-    // Se guarda el array 
     arrayToPlay = selectingQuestions(questions);
     abcQuestions(arrayToPlay);
 };

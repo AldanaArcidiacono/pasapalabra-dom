@@ -167,9 +167,37 @@ const startGame = (array) => {
 startButton.addEventListener("click", () => startGame(arrayToPlay));
 
 const abcQuestions = (array) => {
-    let showQuestion = array[iterator].question;
-    wordToGuess.textContent = showQuestion;
+    // let showQuestion = array[iterator].question;
+    // wordToGuess.textContent = showQuestion;
+    // Lo reemplazamos por la funcion que habia en answerActions
+    if(array[iterator].status === statusNotPlayed || array[iterator].status === statusPasapalabra){
+        showQuestion = array[iterator].question;
+        wordToGuess.textContent = showQuestion;
+    } 
 };
+
+const roscoFlow = (array) => {
+    if(iterator >= 26){
+        iterator = 0;
+        toPreviuosLetter = iterator;
+        toNextLetter = toPreviuosLetter+1;
+    } else {
+        iterator++
+        toPreviuosLetter++
+        toNextLetter++
+    }
+
+    while((array[iterator].status === statusCorrect || array[iterator].status === statusIncorrect) && isPasapalabra(array)){
+        iterator++
+        toPreviuosLetter++
+        toNextLetter++
+        if(iterator > 26) {
+            iterator = 0;
+            toPreviuosLetter = iterator;
+            toNextLetter = toPreviuosLetter+1;
+        }
+    }
+}
 
 // Func Respuesta Input y verif
 const answerActions = (array) => {
@@ -196,6 +224,7 @@ const answerActions = (array) => {
     console.log("selectedLetter",selectedLetter)
     // Dividir funcion 
 
+    // Esta fun debería sólo verif que la rta sea correcta🔽
     const verifyInputValue = playerInput.value.toLowerCase();
     if(verifyInputValue === array[iterator].answer){
         document.getElementById(`${letter}`).style.background = "#D7EDBC";
@@ -207,34 +236,38 @@ const answerActions = (array) => {
         wrongAnswer++
     }
     playerInput.value = "";
+    // Verif🔼
 
-    // dif func
-    if(iterator >= 26){
-        iterator = 0;
-        toPreviuosLetter = iterator;
-        toNextLetter = toPreviuosLetter+1;
-    } else {
-        iterator++
-        toPreviuosLetter++
-        toNextLetter++
-    }
+    roscoFlow(array);
+    // Reemplaza a:
+    // if(iterator >= 26){
+    //     iterator = 0;
+    //     toPreviuosLetter = iterator;
+    //     toNextLetter = toPreviuosLetter+1;
+    // } else {
+    //     iterator++
+    //     toPreviuosLetter++
+    //     toNextLetter++
+    // }
 
-    //hace falta el estado correcto o incorrecto?
-    while((array[iterator].status === statusCorrect || array[iterator].status === statusIncorrect) && isPasapalabra(array)){
-        iterator++
-        toPreviuosLetter++
-        toNextLetter++
-        if(iterator > 26) {
-            iterator = 0;
-            toPreviuosLetter = iterator;
-            toNextLetter = toPreviuosLetter+1;
-        }
-    }
+    //hace falta el estado correcto o incorrecto? SI, sino me da un bucle infinito
+    // while((array[iterator].status === statusCorrect || array[iterator].status === statusIncorrect) && isPasapalabra(array)){
+    //     iterator++
+    //     toPreviuosLetter++
+    //     toNextLetter++
+    //     if(iterator > 26) {
+    //         iterator = 0;
+    //         toPreviuosLetter = iterator;
+    //         toNextLetter = toPreviuosLetter+1;
+    //     }
+    // }
 
-    if(array[iterator].status === statusNotPlayed || array[iterator].status === statusPasapalabra){
-        showQuestion = array[iterator].question;
-        wordToGuess.textContent = showQuestion;
-    } 
+    abcQuestions(array);
+    // Reemplaza a :
+    // if(array[iterator].status === statusNotPlayed || array[iterator].status === statusPasapalabra){
+    //     showQuestion = array[iterator].question;
+    //     wordToGuess.textContent = showQuestion;
+    // } 
 
     if(!isPasapalabra(array) && array[iterator].status !== statusNotPlayed) {
         timer.style.filter =  "blur(2.5px)";

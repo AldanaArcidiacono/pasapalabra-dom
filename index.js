@@ -128,7 +128,7 @@ const selectingQuestions = (array) => {
     return arrayToPlay;
 }
 
-const isPasapalabra = (array) => {
+const stillInPasapalabra = (array) => {
     return array.some(item => item.status === statusPasapalabra);
 }
 
@@ -139,19 +139,19 @@ const setTimeToAnswer = (array) => {
         if(timerSecs < 1){
             hasTimeToPlay = false;
             clearInterval(timeToAnswer);
-            finishGameMessage(array);
+            endGameMessage(array);
         }
     },1000);
 }
 
-const rulesBox = () => {
+const showRulesBox = () => {
     gameRules.style.display = "flex";
     userActions.style.display = "none";
     exitButton.style.display = "flex";
     timer.style.filter =  "blur(2.5px)";
     exitButton.style.filter =  "blur(2.5px)";
     rosco.style.filter =  "blur(2.5px)";    
-};
+}
 
 const startGame = (array) => {
     gameRules.style.display = "none";
@@ -184,7 +184,7 @@ const roscoFlow = (array) => {
         toNextLetter++
     }
 
-    while((array[iterator].status === statusCorrect || array[iterator].status === statusIncorrect) && isPasapalabra(array)){
+    while((array[iterator].status === statusCorrect || array[iterator].status === statusIncorrect) && stillInPasapalabra(array)){
         iterator++
         toPreviuosLetter++
         toNextLetter++
@@ -197,11 +197,11 @@ const roscoFlow = (array) => {
 }
 
 const checkIfWin = (array) => {
-    if(!isPasapalabra(array) && array[iterator].status !== statusNotPlayed) {
+    if(!stillInPasapalabra(array) && array[iterator].status !== statusNotPlayed) {
         timer.style.filter =  "blur(2.5px)";
         exitButton.style.filter =  "blur(2.5px)";
         rosco.style.filter =  "blur(2.5px)";
-        finishGameMessage(array);
+        endGameMessage(array);
     }
 }
 
@@ -227,8 +227,7 @@ const letterToGuess = (array) => {
     console.log("selectedLetter",selectedLetter)
 }
 
-// Func Respuesta Input y verif
-const answerActions = (array) => {
+const verifyAnswers = (array) => {
     const { letter } = array[iterator];
     const verifyInputValue = playerInput.value.toLowerCase();
     if(verifyInputValue === array[iterator].answer){
@@ -249,19 +248,18 @@ const answerActions = (array) => {
     abcQuestions(array);
 
     checkIfWin(array);
-};
+}
 
-actionReply.addEventListener("click", () => answerActions(arrayToPlay));
+actionReply.addEventListener("click", () => verifyAnswers(arrayToPlay));
 
 playerInput.addEventListener("keydown", event => {
     if (event.key === "Enter") {
         event.preventDefault();
-        answerActions(arrayToPlay);
+        verifyAnswers(arrayToPlay);
     }
 });
 
-//Func pasapalabra
-const pasapalabraActions = (array) => {
+const doPasapalabra = (array) => {
     const { letter } = array[iterator];
     document.getElementById(`${letter}`).style.background = "#F8D6A3";
     array[iterator].status = statusPasapalabra;
@@ -274,12 +272,12 @@ const pasapalabraActions = (array) => {
     abcQuestions(array);
 };
 
-actionPasapalabra.addEventListener("click", () => pasapalabraActions(arrayToPlay));
+actionPasapalabra.addEventListener("click", () => doPasapalabra(arrayToPlay));
 
 playerInput.addEventListener("keydown", event => {
     if (event.key === " ") {
         event.preventDefault();
-        pasapalabraActions(arrayToPlay);
+        doPasapalabra(arrayToPlay);
     }
 });
 
@@ -304,8 +302,8 @@ body.addEventListener("keydown", event => {
     }
 });
 
-const finishGameMessage = (array) => {
-    if(hasTimeToPlay && !isPasapalabra(array)){
+const endGameMessage = (array) => {
+    if(hasTimeToPlay && !stillInPasapalabra(array)){
         const resultString = `Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\n\r\nIntroduce tu nombre para guardar tu score en nuestro ranking!`
         pointsMessage.innerText = resultString;
         userActions.style.display = "none";
@@ -388,7 +386,7 @@ playAgainButton.addEventListener("click", () => playAgain(arrayToPlay));
 
 //Main function
 const alphabeticalGame = () => {
-    rulesBox();
+    showRulesBox();
     arrayToPlay = selectingQuestions(questions);
     abcQuestions(arrayToPlay);
 };

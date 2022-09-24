@@ -129,7 +129,7 @@ const selectingQuestions = (array) => {
 }
 
 const isPasapalabra = (array) => {
-    return array.some(item => item.status === 1);
+    return array.some(item => item.status === statusPasapalabra);
 }
 
 const setTimeToAnswer = (array) => {
@@ -167,9 +167,6 @@ const startGame = (array) => {
 startButton.addEventListener("click", () => startGame(arrayToPlay));
 
 const abcQuestions = (array) => {
-    // let showQuestion = array[iterator].question;
-    // wordToGuess.textContent = showQuestion;
-    // Lo reemplazamos por la funcion que habia en answerActions
     if(array[iterator].status === statusNotPlayed || array[iterator].status === statusPasapalabra){
         showQuestion = array[iterator].question;
         wordToGuess.textContent = showQuestion;
@@ -199,10 +196,16 @@ const roscoFlow = (array) => {
     }
 }
 
-// Func Respuesta Input y verif
-const answerActions = (array) => {
-    const { letter } = array[iterator];
+const checkIfWin = (array) => {
+    if(!isPasapalabra(array) && array[iterator].status !== statusNotPlayed) {
+        timer.style.filter =  "blur(2.5px)";
+        exitButton.style.filter =  "blur(2.5px)";
+        rosco.style.filter =  "blur(2.5px)";
+        finishGameMessage(array);
+    }
+}
 
+const letterToGuess = (array) => {
     const previuosLetter = array[toPreviuosLetter].letter;
     // current letter
     const selectedLetter = array[toNextLetter].letter;
@@ -222,9 +225,11 @@ const answerActions = (array) => {
     console.log("previuosLetter",previuosLetter)
     console.log("tonextletter", toNextLetter)
     console.log("selectedLetter",selectedLetter)
-    // Dividir funcion 
+}
 
-    // Esta fun debería sólo verif que la rta sea correcta🔽
+// Func Respuesta Input y verif
+const answerActions = (array) => {
+    const { letter } = array[iterator];
     const verifyInputValue = playerInput.value.toLowerCase();
     if(verifyInputValue === array[iterator].answer){
         document.getElementById(`${letter}`).style.background = "#D7EDBC";
@@ -236,45 +241,14 @@ const answerActions = (array) => {
         wrongAnswer++
     }
     playerInput.value = "";
-    // Verif🔼
+
+    letterToGuess(array);
 
     roscoFlow(array);
-    // Reemplaza a:
-    // if(iterator >= 26){
-    //     iterator = 0;
-    //     toPreviuosLetter = iterator;
-    //     toNextLetter = toPreviuosLetter+1;
-    // } else {
-    //     iterator++
-    //     toPreviuosLetter++
-    //     toNextLetter++
-    // }
-
-    //hace falta el estado correcto o incorrecto? SI, sino me da un bucle infinito
-    // while((array[iterator].status === statusCorrect || array[iterator].status === statusIncorrect) && isPasapalabra(array)){
-    //     iterator++
-    //     toPreviuosLetter++
-    //     toNextLetter++
-    //     if(iterator > 26) {
-    //         iterator = 0;
-    //         toPreviuosLetter = iterator;
-    //         toNextLetter = toPreviuosLetter+1;
-    //     }
-    // }
 
     abcQuestions(array);
-    // Reemplaza a :
-    // if(array[iterator].status === statusNotPlayed || array[iterator].status === statusPasapalabra){
-    //     showQuestion = array[iterator].question;
-    //     wordToGuess.textContent = showQuestion;
-    // } 
 
-    if(!isPasapalabra(array) && array[iterator].status !== statusNotPlayed) {
-        timer.style.filter =  "blur(2.5px)";
-        exitButton.style.filter =  "blur(2.5px)";
-        rosco.style.filter =  "blur(2.5px)";
-        finishGameMessage(array);
-    }
+    checkIfWin(array);
 };
 
 actionReply.addEventListener("click", () => answerActions(arrayToPlay));
@@ -290,49 +264,14 @@ playerInput.addEventListener("keydown", event => {
 const pasapalabraActions = (array) => {
     const { letter } = array[iterator];
     document.getElementById(`${letter}`).style.background = "#F8D6A3";
-
-    const previuosLetter = array[toPreviuosLetter].letter;
-    const selectedLetter = array[toNextLetter].letter;
-
-    if (selectedLetter === "z") {
-        document.getElementById(`${array[26].letter}`).style.border = "1px solid #424040";
-        toPreviuosLetter = 0;
-        toNextLetter = toPreviuosLetter+1;
-    }
-
-    firstLeter.style.border = "1px solid #424040";
-    document.getElementById(`${previuosLetter}`).style.border = "1px solid #424040";
-    document.getElementById(`${selectedLetter}`).style.border = "3px solid #424040";    
-
     array[iterator].status = statusPasapalabra;
-
     playerInput.value = "";
-    
-    if(iterator >= 26){
-        iterator = 0;
-        toPreviuosLetter = iterator;
-        toNextLetter = toPreviuosLetter+1;
-    } else {
-        iterator++
-        toPreviuosLetter++
-        toNextLetter++
-    }
 
-    while((array[iterator].status === statusCorrect || array[iterator].status === statusIncorrect) && isPasapalabra(array)){
-        iterator++
-        toPreviuosLetter++
-        toNextLetter++
-        if(iterator > 26) {
-            iterator = iterator;
-            toPreviuosLetter = 0;
-            toNextLetter = toPreviuosLetter+1;
-        }
-    }
+    letterToGuess(array);
     
-    if(array[iterator].status === statusNotPlayed || array[iterator].status === statusPasapalabra){
-        showQuestion = array[iterator].question;
-        wordToGuess.textContent = showQuestion;
-    } 
+    roscoFlow(array);
+    
+    abcQuestions(array);
 };
 
 actionPasapalabra.addEventListener("click", () => pasapalabraActions(arrayToPlay));

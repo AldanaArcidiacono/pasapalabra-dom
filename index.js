@@ -211,7 +211,7 @@ const disableLetter = (letter) => {
     document.getElementById(`${letter}`).classList.remove('activeLetter');
 };
 
-const verifyAnswers = (array) => { //(array, letter)
+const verifyAnswers = (array) => {
     const { letter } = array[iterator];
     disableLetter(letter);
     const verifyInputValue = playerInput.value.toLowerCase();
@@ -240,7 +240,7 @@ playerInput.addEventListener("keydown", event => {
     }
 });
 
-const doPasapalabra = (array) => {//(array, letter)
+const doPasapalabra = (array) => {
     const { letter } = array[iterator];
     disableLetter(letter);
     document.getElementById(`${letter}`).style.background = "#F8D6A3";

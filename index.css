@@ -129,6 +129,11 @@ button:hover {
     font-size: 2.7rem;
 }
 
+.activeLetter {
+    /* background-color: blue; */
+    box-shadow: 10px 5px 5px black;
+}
+
 #a {
     transform: rotate(-90deg) translate(25em) rotate(90deg);
 }

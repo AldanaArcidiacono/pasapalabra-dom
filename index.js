@@ -90,7 +90,6 @@ const pasapalabraGame = document.querySelector(".pasapalabra");
 const timer = document.getElementById("timer");
 const startButton = document.querySelector(".message__button");
 const gameRules = document.querySelector(".pasapalabra__rules");
-const firstLeter = document.getElementById("a");
 const rosco = document.querySelector(".game__container");
 const userActions = document.querySelector(".game__actions");
 const exitButton = document.querySelector("#exit-button");
@@ -114,8 +113,6 @@ const statusIncorrect = 3;
 
 let arrayToPlay;
 let iterator = 0;
-let toPreviuosLetter = 0;
-let toNextLetter = toPreviuosLetter+1;
 let correctAnswer = 0;
 let wrongAnswer = 0;
 let hasTimeToPlay = true;
@@ -123,13 +120,18 @@ let timerSecs = 120;
 let timeToAnswer;
 
 const selectingQuestions = (array) => {
-    const selectedArray = Math.floor(Math.random() * 3);
-    const arrayToPlay = array[selectedArray];
+    const randomNumber = Math.floor(Math.random() * 3);
+    arrayToPlay = array[randomNumber];
+    console.log(randomNumber);
     return arrayToPlay;
 }
 
 const stillInPasapalabra = (array) => {
     return array.some(item => item.status === statusPasapalabra);
+}
+
+const stillNotPlayedLetters = (array) => {
+    return array.some(item => item.status === statusNotPlayed);
 }
 
 const setTimeToAnswer = (array) => {
@@ -139,7 +141,7 @@ const setTimeToAnswer = (array) => {
         if(timerSecs < 1){
             hasTimeToPlay = false;
             clearInterval(timeToAnswer);
-            endGameMessage(array);
+            endGame(array);
         }
     },1000);
 }
@@ -154,81 +156,64 @@ const showRulesBox = () => {
 }
 
 const startGame = (array) => {
+    const { letter } = array[iterator];
     gameRules.style.display = "none";
     userActions.style.display = "flex";
     timer.style.filter =  "blur(0px)";
     exitButton.style.filter =  "blur(0px)";
     rosco.style.filter =  "blur(0px)";
-    firstLeter.style.border = "3px solid #424040";
     playerInput.focus();
+    currentLetter(letter);
     setTimeToAnswer(array);
 }
 
 startButton.addEventListener("click", () => startGame(arrayToPlay));
 
 const abcQuestions = (array) => {
+    const { letter } = array[iterator];
     if(array[iterator].status === statusNotPlayed || array[iterator].status === statusPasapalabra){
         showQuestion = array[iterator].question;
         wordToGuess.textContent = showQuestion;
+        currentLetter(letter);
     } 
 };
 
-const roscoFlow = (array) => {
+
+const roscoFlow = (array) => { 
     if(iterator >= 26){
         iterator = 0;
-        toPreviuosLetter = iterator;
-        toNextLetter = toPreviuosLetter+1;
     } else {
         iterator++
-        toPreviuosLetter++
-        toNextLetter++
     }
 
     while((array[iterator].status === statusCorrect || array[iterator].status === statusIncorrect) && stillInPasapalabra(array)){
         iterator++
-        toPreviuosLetter++
-        toNextLetter++
         if(iterator > 26) {
             iterator = 0;
-            toPreviuosLetter = iterator;
-            toNextLetter = toPreviuosLetter+1;
         }
     }
 }
 
 const checkIfWin = (array) => {
-    if(!stillInPasapalabra(array) && array[iterator].status !== statusNotPlayed) {
+    if(!stillInPasapalabra(array) && !stillNotPlayedLetters(array)) {
         timer.style.filter =  "blur(2.5px)";
         exitButton.style.filter =  "blur(2.5px)";
         rosco.style.filter =  "blur(2.5px)";
-        endGameMessage(array);
+        endGame(array);
     }
 }
 
-const letterToGuess = (array) => {
-    const previuosLetter = array[toPreviuosLetter].letter;
-    // current letter
-    const selectedLetter = array[toNextLetter].letter;
+const currentLetter = (letter) => {
+    document.getElementById(`${letter}`).classList.add('activeLetter');
+};
 
-    if (selectedLetter === "z") {
-        document.getElementById(`${selectedLetter}`).style.border = "1px solid #424040";
-        toPreviuosLetter = 0;
-        toNextLetter = toPreviuosLetter+1;
-    }
+const disableLetter = (letter) => {
+    document.getElementById(`${letter}`).classList.remove('activeLetter');
+};
 
-    firstLeter.style.border = "1px solid #424040";
-    document.getElementById(`${previuosLetter}`).style.border = "1px solid #424040";
-    document.getElementById(`${selectedLetter}`).style.border = "3px solid #424040";    
-
-    console.log("iterator", iterator)
-    console.log("topreviuosletter", toPreviuosLetter)
-    console.log("previuosLetter",previuosLetter)
-    console.log("tonextletter", toNextLetter)
-    console.log("selectedLetter",selectedLetter)
-}
-
-const verifyAnswers = (array) => {
+const verifyAnswers = (array) => { //(array, letter)
     const { letter } = array[iterator];
+    disableLetter(letter);
     const verifyInputValue = playerInput.value.toLowerCase();
     if(verifyInputValue === array[iterator].answer){
         document.getElementById(`${letter}`).style.background = "#D7EDBC";
@@ -241,13 +226,9 @@ const verifyAnswers = (array) => {
     }
     playerInput.value = "";
 
-    letterToGuess(array);
-
-    roscoFlow(array);
-
-    abcQuestions(array);
-
     checkIfWin(array);
+    roscoFlow(array);
+    abcQuestions(array);
 }
 
 actionReply.addEventListener("click", () => verifyAnswers(arrayToPlay));
@@ -259,16 +240,14 @@ playerInput.addEventListener("keydown", event => {
     }
 });
 
-const doPasapalabra = (array) => {
+const doPasapalabra = (array) => {//(array, letter)
     const { letter } = array[iterator];
+    disableLetter(letter);
     document.getElementById(`${letter}`).style.background = "#F8D6A3";
     array[iterator].status = statusPasapalabra;
     playerInput.value = "";
-
-    letterToGuess(array);
     
     roscoFlow(array);
-    
     abcQuestions(array);
 };
 
@@ -302,8 +281,8 @@ body.addEventListener("keydown", event => {
     }
 });
 
-const endGameMessage = (array) => {
-    if(hasTimeToPlay && !stillInPasapalabra(array)){
+const endGame = (array) => {
+    if(hasTimeToPlay && (!stillInPasapalabra(array) || !stillNotPlayedLetters(array))){
         const resultString = `Has respondido ${correctAnswer} palabras correctamente y te equivocaste en ${wrongAnswer}\r\n\r\nIntroduce tu nombre para guardar tu score en nuestro ranking!`
         pointsMessage.innerText = resultString;
         userActions.style.display = "none";
@@ -329,14 +308,14 @@ const endGameMessage = (array) => {
     }
 }    
 
-actionSendName.addEventListener("click", event => {
+actionSendName.addEventListener("click", () => {
     const userName = inputUserName.value;
     scoringSystem(userName);
 });
 
 inputUserName.addEventListener("keydown", event => {
     if (event.key === "Enter") {
-        //event.preventDefault();
+        event.preventDefault();
         const userName = inputUserName.value;
         scoringSystem(userName);
     }
@@ -372,8 +351,6 @@ const playAgain = (array) => {
         array[i].status = statusNotPlayed;
     }
     iterator = 0;
-    toNextLetter = toPreviuosLetter+1;
-    toPreviuosLetter = 0;
     correctAnswer = 0;
     wrongAnswer = 0;
     hasTimeToPlay = true;
@@ -386,8 +363,8 @@ playAgainButton.addEventListener("click", () => playAgain(arrayToPlay));
 
 //Main function
 const alphabeticalGame = () => {
-    showRulesBox();
     arrayToPlay = selectingQuestions(questions);
+    showRulesBox();
     abcQuestions(arrayToPlay);
 };
 alphabeticalGame();

@@ -129,6 +129,10 @@ button:hover {
     font-size: 2.7rem;
 }
 
+.activeLetter {
+    border: 3px solid #424040;
+}
+
 #a {
     transform: rotate(-90deg) translate(25em) rotate(90deg);
 }

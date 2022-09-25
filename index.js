@@ -271,6 +271,7 @@ const exitTheGame = () => {
     timer.style.filter =  "blur(2.5px)";
     exitButton.style.filter =  "blur(2.5px)";
     rosco.style.filter =  "blur(2.5px)";   
+    clearInterval(timeToAnswer);
 }
 
 exitButton.addEventListener("click", () => exitTheGame());

@@ -130,8 +130,7 @@ button:hover {
 }
 
 .activeLetter {
-    /* background-color: blue; */
-    box-shadow: 10px 5px 5px black;
+    border: 3px solid #424040;
 }
 
 #a {

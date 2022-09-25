@@ -97,8 +97,8 @@ const wordToGuess = document.querySelector("#word-to-guess");
 const playerInput = document.querySelector(".actions__input");
 const actionPasapalabra = document.querySelector(".buttons__pasapalabra");
 const actionReply = document.querySelector(".buttons__user-answer");
-const finishingGame = document.querySelector(".pasapalabra__scoring");
-const scoreMessage = document.querySelector(".pasapalabra__users-ranking");
+const userScore = document.querySelector(".pasapalabra__scoring");
+const usersRanking = document.querySelector(".pasapalabra__users-ranking");
 const scoring = document.getElementById("scoring");
 const inputUserName = document.querySelector(".scoring__user-name");
 const actionSendName = document.getElementById("submit-button");
@@ -267,7 +267,7 @@ const exitTheGame = () => {
     userActions.style.display = "none";
     const usersLastMessage = document.querySelector(".users-ranking__last-message");
     usersLastMessage.style.height = "12rem"
-    scoreMessage.style.display = "flex";
+    usersRanking.style.display = "flex";
     timer.style.filter =  "blur(2.5px)";
     exitButton.style.filter =  "blur(2.5px)";
     rosco.style.filter =  "blur(2.5px)";   
@@ -287,7 +287,7 @@ const endGame = (array) => {
         pointsMessage.innerText = resultString;
         userActions.style.display = "none";
         exitButton.style.display = "none";
-        finishingGame.style.display = "flex";
+        userScore.style.display = "flex";
         inputUserName.focus();
 
         clearInterval(timeToAnswer);
@@ -303,7 +303,7 @@ const endGame = (array) => {
         timer.style.filter =  "blur(2.5px)";
         exitButton.style.filter =  "blur(2.5px)";
         rosco.style.filter =  "blur(2.5px)";   
-        finishingGame.style.display = "flex";
+        userScore.style.display = "flex";
         inputUserName.focus();
     }
 }    
@@ -322,8 +322,8 @@ inputUserName.addEventListener("keydown", event => {
 });
 
 const scoringSystem = (userName) => {
-    finishingGame.style.display = "none";
-    scoreMessage.style.display = "flex";
+    userScore.style.display = "none";
+    usersRanking.style.display = "flex";
     let scoringPosition = [];
 
     let playerNames = [
@@ -355,7 +355,7 @@ const playAgain = (array) => {
     wrongAnswer = 0;
     hasTimeToPlay = true;
     timerSecs = 120;
-    scoreMessage.style.display = "none";
+    usersRanking.style.display = "none";
     alphabeticalGame();
 }
 
